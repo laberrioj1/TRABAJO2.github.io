@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TRABAJO</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="tae.html">4.7.2</a>
+</li>
+<li>
+  <a href="about.html">8.4</a>
+</li>
+<li>
+  <a href="bod.html">9.7.2</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="section" class="section level1 tabset tabset-fade tabset-pills">
+<h1></h1>
+<div id="punto-4" class="section level2">
+<h2>Punto 4</h2>
+<p>Generar un conjunto de datos simulados de dos clases con 100 observaciones y dos características en las que hay una separación visible pero no lineal entre las dos clases. Muestra que, en este escenario, un vector de apoyo máquina con un núcleo polinómico (con un grado superior a 1) o una El núcleo radial superará al clasificador de vectores de apoyo en la formación datos. ¿Qué técnica funciona mejor con los datos de la prueba? Haga y reportar las tasas de error de entrenamiento y pruebas para respaldar sus afirmaciones.</p>
+<pre class="r"><code>library(e1071)
+set.seed(2653)
+x &lt;- rnorm(100)
+y &lt;- 4 * x^2 + 1 + rnorm(100)
+class &lt;- sample(100, 50)
+y[class] &lt;- y[class] + 3
+y[-class] &lt;- y[-class] - 3
+plot(x[class], y[class], col = &quot;#FF7B4D&quot;, xlab = &quot;X&quot;, ylab = &quot;Y&quot;, ylim = c(-6, 30))
+points(x[-class], y[-class], col = &quot;#4D90FF&quot;)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Ajustamos un clasificador de vector de soporte para los datos de entrenamiento:</p>
+<pre class="r"><code>set.seed(2020)
+z &lt;- rep(-1, 100)
+z[class] &lt;- 1
+data &lt;- data.frame(x = x, y = y, z = as.factor(z))
+train4 &lt;- sample(100, 50)
+data.train4 &lt;- data[train4, ]
+data.test4 &lt;- data[-train4, ]
+svm.linear &lt;- svm(z ~ ., data = data.train4, kernel = &quot;linear&quot;, cost = 10)
+plot(svm.linear, data.train4, col=c(&quot;#89D7FF&quot;,&quot;#5A6EEB&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.linear, data.train4), truth = data.train4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 18  3
+##      1   5 24</code></pre>
+<p>El clasificador de vectores de soporte comete 8 errores de clasificación.</p>
+<p>Se ajusta una maquina de vectores con núcleo polinomial de grado 3:</p>
+<pre class="r"><code>svm.poly &lt;- svm(z ~ ., data = data.train4, kernel = &quot;polynomial&quot;, cost = 10)
+plot(svm.poly, data.train4, col=c(&quot;#89D7FF&quot;,&quot;#5A6EEB&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.poly, data.train4), truth = data.train4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 16  1
+##      1   7 26</code></pre>
+<p>La máquina de vectores de soporte con un núcleo polinomial comete 8 errores en los datos de entrenamiento.</p>
+<p>Se ajusta una máquina de vectores de soporte con núcleo radial y gamma de 4:</p>
+<pre class="r"><code>svm.radial &lt;- svm(z ~ ., data = data.train4, kernel = &quot;radial&quot;, gamma = 4, cost = 10)
+plot(svm.radial, data.train4, col=c(&quot;#89D7FF&quot;,&quot;#5A6EEB&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.radial, data.train4), truth = data.train4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 23  0
+##      1   0 27</code></pre>
+<p>La máquina de vectores con núcleo radial no comete errores.</p>
+<p>Luego, se verifica el funcionamiento de estos modelos con los datos de prueba.</p>
+<pre class="r"><code>plot(svm.linear, data.test4,col=c(&quot;#00EBAE&quot;,&quot;#0DB5FF&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.linear, data.test4), truth = data.test4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 20  0
+##      1   7 23</code></pre>
+<p>Comete 7 errores de clasificación.</p>
+<pre class="r"><code>plot(svm.poly, data.test4,col=c(&quot;#00EBAE&quot;,&quot;#0DB5FF&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.poly, data.test4), truth = data.test4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 13  0
+##      1  14 23</code></pre>
+<p>Comete 14 errores de clasificación.</p>
+<pre class="r"><code>plot(svm.radial, data.test4,col=c(&quot;#00EBAE&quot;,&quot;#0DB5FF&quot;))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>table(predict = predict(svm.radial, data.test4), truth = data.test4$z)</code></pre>
+<pre><code>##        truth
+## predict -1  1
+##      -1 27  2
+##      1   0 21</code></pre>
+<p>Comete 2 errores de clasificación.</p>
+<p>En este caso el mejor modelo se ajusta con el núcleo radial.</p>
+</div>
+<div id="punto-5" class="section level2">
+<h2>Punto 5</h2>
+<p>Hemos visto que podemos encajar un SVM con un núcleo no lineal para para realizar la clasificación utilizando un límite de decisión no lineal ahora vemos que también podemos obtener un límite de decisión no lineal por realizando una regresión logística utilizando transformaciones no lineales de las características.</p>
+<p><strong>(a)</strong> Generar un conjunto de datos con n = 500 y p = 2, de manera que las observaciones pertenecen a dos clases con un límite de decisión cuadrático entre ellos. Por ejemplo, puedes hacer esto de la siguiente manera:</p>
+<p>x1=runif (500) -0.5 x2=runif (500) -0.5 y=1*(x1<sup>2-x2</sup>2 &gt; 0)</p>
+<pre class="r"><code>set.seed(130)
+x1 &lt;- runif(500) - 0.5
+x2 &lt;- runif(500) - 0.5
+y &lt;- 1 * (x1^2 - x2^2 &gt; 0)</code></pre>
+<p><strong>(b)</strong> Trazar las observaciones, coloreadas según sus etiquetas de clase. Su gráfico debe mostrar X1 en el eje x, y X2 en el eje y.</p>
+<pre class="r"><code>plot(x1, x2, xlab = &quot;X1&quot;, ylab = &quot;X2&quot;, col = (4 - y), pch = (3 - y))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><strong>(c)</strong> Ajustar un modelo de regresión logística a los datos, utilizando X1 y X2 como predictores.</p>
+<p>Ajustamos el modelo:</p>
+<pre class="r"><code>logit.fit1 &lt;- glm(y ~ x1 + x2, family = &quot;binomial&quot;)
+summary(logit.fit1)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = y ~ x1 + x2, family = &quot;binomial&quot;)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.280  -1.152  -1.038   1.179   1.333  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -0.05766    0.08986  -0.642    0.521
+## x1          -0.42417    0.30512  -1.390    0.164
+## x2          -0.27181    0.30183  -0.901    0.368
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 692.64  on 499  degrees of freedom
+## Residual deviance: 690.02  on 497  degrees of freedom
+## AIC: 696.02
+## 
+## Number of Fisher Scoring iterations: 3</code></pre>
+<p>En este modelo ajustado ninguna de las variables es significativa.</p>
+<p><strong>(d)</strong> Aplicar este modelo a los datos de capacitación a fin de obtener una predicción etiqueta de clase para cada observación de entrenamiento. Traza las observaciones, de acuerdo con las etiquetas de clase predichas. El límite de decisión debe ser lineal.</p>
+<pre class="r"><code>data1 &lt;- data.frame(x1 = x1, x2 = x2, y = y)
+probs1 &lt;- predict(logit.fit1, data1, type = &quot;response&quot;)
+preds1 &lt;- rep(0, 500)
+preds1[probs1 &gt; 0.47] &lt;- 1
+plot(data1[preds1 == 1, ]$x1, data1[preds1 == 1, ]$x2, col = (4 - 1), pch = (3 - 1), xlab = &quot;X1&quot;, ylab = &quot;X2&quot;)
+points(data1[preds1 == 0, ]$x1, data1[preds1 == 0, ]$x2, col = (4 - 0), pch = (3 - 0))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Para este caso el límite de decisión sería lineal.</p>
+<p><strong>(e)</strong> Ahora ajuste un modelo de regresión logística a los datos utilizando la técnica no lineal funciones de X1 y X2 como predictores (por ejemplo <span class="math inline">\(X_1^2,X_1 * X_2\)</span>,log(<span class="math inline">\(X_2\)</span>), etc)</p>
+<pre class="r"><code>logitnl.fit &lt;- glm(y ~ poly(x1, 2) + log(abs(x2)) + I(x1 * x2), family = &quot;binomial&quot;)</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<pre class="r"><code>summary(logitnl.fit)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = y ~ poly(x1, 2) + log(abs(x2)) + I(x1 * x2), family = &quot;binomial&quot;)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.70065  -0.13052  -0.01607   0.11021   2.07835  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   -9.2966     1.0723  -8.670   &lt;2e-16 ***
+## poly(x1, 2)1  -0.4216     4.3107  -0.098   0.9221    
+## poly(x1, 2)2  88.0169     9.9538   8.843   &lt;2e-16 ***
+## log(abs(x2))  -6.1119     0.6976  -8.762   &lt;2e-16 ***
+## I(x1 * x2)    -3.2041     1.8025  -1.778   0.0755 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 692.64  on 499  degrees of freedom
+## Residual deviance: 167.67  on 495  degrees of freedom
+## AIC: 177.67
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+<p>Con este nuevo modelo no linealtenemos dos variables o transformaciones significativas, <span class="math inline">\(X_2\)</span> y log(<span class="math inline">\(X_2\)</span>).</p>
+<p><strong>(f)</strong> Aplicar este modelo a los datos de entrenamiento para obtener una predicción etiqueta de clase para cada observación de entrenamiento. Traza las observaciones, de acuerdo con las etiquetas de clase predichas. El límite de decisión debería ser obviamente no lineal. Si no lo es, entonces repita (a)-(e) hasta que llegue a un ejemplo en el que las etiquetas de clase predichas son obviamente no lineales.</p>
+<pre class="r"><code>probs6 &lt;- predict(logitnl.fit, data1, type = &quot;response&quot;)
+preds6 &lt;- rep(0, 500)
+preds6[probs6 &gt; 0.47] &lt;- 1
+plot(data1[preds6 == 1, ]$x1, data1[preds6 == 1, ]$x2, col = (4 - 1), pch = (3 - 1), xlab = &quot;X1&quot;, ylab = &quot;X2&quot;)
+points(data1[preds6 == 0, ]$x1, data1[preds6 == 0, ]$x2, col = (4 - 0), pch = (3 - 0))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>El límite de decisíon es no lineal.</p>
+<p><strong>(g)</strong> Ajustar un clasificador de vectores de apoyo a los datos con X1 y X2 como predictores. Obtener una predicción de clase para cada observación de entrenamiento. Trazar las observaciones, coloreadas de acuerdo con la predicción etiquetas de clase.</p>
+<pre class="r"><code>data1$y &lt;- as.factor(data1$y)
+svm.fit7 &lt;- svm(y ~ x1 + x2, data1, kernel = &quot;linear&quot;, cost = 0.05)
+preds7 &lt;- predict(svm.fit7, data1)
+plot(data1[preds7 == 0, ]$x1, data1[preds7 == 0, ]$x2, col = (4 - 0), pch = (3 - 0), xlab = &quot;X1&quot;, ylab = &quot;X2&quot;)
+points(data1[preds7 == 1, ]$x1, data1[preds7 == 1, ]$x2, col = (4 - 1), pch = (3 - 1))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><strong>(h)</strong> Ajustar un SVM usando un núcleo no lineal a los datos. Obtener una clase predicción para cada observación de entrenamiento. Traza las observaciones, de acuerdo con las etiquetas de clase predichas.</p>
+<pre class="r"><code>data1$y &lt;- as.factor(data1$y)
+svmnl.fit8 &lt;- svm(y ~ x1 + x2, data1, kernel = &quot;radial&quot;, gamma = 1)
+preds8 &lt;- predict(svmnl.fit8, data1)
+plot(data1[preds8 == 0, ]$x1, data1[preds8 == 0, ]$x2, col = (4 - 0), pch = (3 - 0), xlab = &quot;X1&quot;, ylab = &quot;X2&quot;)
+points(data1[preds8 == 1, ]$x1, data1[preds8 == 1, ]$x2, col = (4 - 1), pch = (3 - 1))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>De nuevo el límite de decisión no es lineal.</p>
+<p><strong>(i)</strong> Comente sus resultados.</p>
+<p>Podemos concluir que SVM con kernel no lineal y regresión logística con términos de interacción son igualmente muy poderosos para encontrar límites de decisión no lineales. Además, algo a favor de SVM es que requiere un poco de ajuste manual para encontrar los términos de interacción correctos cuando se usa la regresión logística, aunque cuando se usa SVM solo se necesita encontrar un buen gamma.</p>
+</div>
+<div id="punto-6" class="section level2">
+<h2>Punto 6</h2>
+<p>Al final de la sección 9.6.1, se afirma que en el caso de los datos que es apenas linealmente separable, un clasificador de vectores de apoyo con un pequeño valor de costo que clasifica erróneamente un par de observaciones de entrenamiento puede tener un mejor rendimiento en los datos de las pruebas que uno con un enorme valor de costo que no clasifica erróneamente ninguna observación de entrenamiento. Ahora investigue esta demanda.</p>
+<p><strong>(a)</strong> Generar datos de dos clases con p = 2 de tal manera que las clases son apenas linealmente separables.</p>
+<pre class="r"><code>set.seed(145)
+x.one &lt;- runif(500, 0, 90)
+y.one &lt;- runif(500, x.one + 10, 100)
+x.one.noise &lt;- runif(50, 20, 80)
+y.one.noise &lt;- 5/4 * (x.one.noise - 10) + 0.1
+
+x.zero &lt;- runif(500, 10, 100)
+y.zero &lt;- runif(500, 0, x.zero - 10)
+x.zero.noise &lt;- runif(50, 20, 80)
+y.zero.noise &lt;- 5/4 * (x.zero.noise - 10) - 0.1
+
+class.one &lt;- seq(1, 550)
+x &lt;- c(x.one, x.one.noise, x.zero, x.zero.noise)
+y1 &lt;- c(y.one, y.one.noise, y.zero, y.zero.noise)
+
+plot(x[class.one], y1[class.one], col = &quot;blue&quot;, pch = &quot;+&quot;, ylim = c(0, 100))
+points(x[-class.one], y1[-class.one], col = &quot;red&quot;, pch = 4)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><strong>(b)</strong> Calcular las tasas de error de validación cruzada para el vector de apoyo clasificadores con un rango de valores de costo. ¿Cuántos errores de entrenamiento se clasifican erróneamente para cada valor de costo considerado, y cómo se relaciona esto con los errores de validación cruzada obtenidos?</p>
+<pre class="r"><code>set.seed(231)
+z &lt;- rep(0, 1100)
+z[class.one] &lt;- 1
+data &lt;- data.frame(x = x, y = y1, z = as.factor(z))
+tune.out &lt;- tune(svm, z ~ ., data = data, kernel = &quot;linear&quot;, ranges = list(cost = c(0.01, 0.1, 1, 5, 10, 100, 1000, 10000)))
+summary(tune.out)</code></pre>
+<pre><code>## 
+## Parameter tuning of &#39;svm&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##   cost
+##  10000
+## 
+## - best performance: 0 
+## 
+## - Detailed performance results:
+##    cost      error  dispersion
+## 1 1e-02 0.04818182 0.018704605
+## 2 1e-01 0.04000000 0.016148985
+## 3 1e+00 0.04000000 0.014968593
+## 4 5e+00 0.04000000 0.014968593
+## 5 1e+01 0.04000000 0.016148985
+## 6 1e+02 0.03818182 0.015332255
+## 7 1e+03 0.01818182 0.008570991
+## 8 1e+04 0.00000000 0.000000000</code></pre>
+<pre class="r"><code>data.frame(cost = tune.out$performance$cost, misclass = tune.out$performance$error * 1100)</code></pre>
+<pre><code>##    cost misclass
+## 1 1e-02       53
+## 2 1e-01       44
+## 3 1e+00       44
+## 4 5e+00       44
+## 5 1e+01       44
+## 6 1e+02       42
+## 7 1e+03       20
+## 8 1e+04        0</code></pre>
+<p>El mejor parámetro puede ser el que se obtiene 10000 puesto que no comete errores al clasificar los punto.</p>
+<p><strong>(c)</strong> Generar un conjunto de datos de prueba apropiado, y calcular la prueba errores correspondientes a cada uno de los valores de costo considerados. ¿Qué valor de coste conduce a la menor cantidad de errores de prueba, y cómo ¿se compara esto con los valores de costo que producen menos errores de entrenamiento y la menor cantidad de errores de validación cruzada?</p>
+<pre class="r"><code>x.test &lt;- runif(1000, 0, 100)
+class.one &lt;- sample(1000, 500)
+y.test &lt;- rep(NA, 1000)
+# Set y &gt; x for class.one
+for (i in class.one) {
+    y.test[i] &lt;- runif(1, x.test[i], 100)
+}
+# set y &lt; x for class.zero
+for (i in setdiff(1:1000, class.one)) {
+    y.test[i] &lt;- runif(1, 0, x.test[i])
+}
+plot(x.test[class.one], y.test[class.one], col = &quot;blue&quot;, pch = &quot;+&quot;)
+points(x.test[-class.one], y.test[-class.one], col = &quot;red&quot;, pch = 4)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code>set.seed(3)
+z.test &lt;- rep(0, 1000)
+z.test[class.one] &lt;- 1
+data.test &lt;- data.frame(x = x.test, y = y.test, z = as.factor(z.test))
+costs &lt;- c(0.01, 0.1, 1, 5, 10, 100, 1000, 10000)
+test.err &lt;- rep(NA, length(costs))
+for (i in 1:length(costs)) {
+    svm.fit &lt;- svm(z ~ ., data = data, kernel = &quot;linear&quot;, cost = costs[i])
+    pred &lt;- predict(svm.fit, data.test)
+    test.err[i] &lt;- sum(pred != data.test$z)
+}
+data.frame(cost = costs, misclass = test.err)</code></pre>
+<pre><code>##    cost misclass
+## 1 1e-02       43
+## 2 1e-01       12
+## 3 1e+00        8
+## 4 5e+00        8
+## 5 1e+01        7
+## 6 1e+02      167
+## 7 1e+03      203
+## 8 1e+04      204</code></pre>
+<p>Para este caso el mejor costo se da en 10.</p>
+<p><strong>(d)</strong> Discuta sus resultados.</p>
+<p>Para un valor de costo alto intenta clasificar correctamente pero en esta caso funciona mejor un costo bajo y tener pocos errores.</p>
+</div>
+<div id="punto-7" class="section level2">
+<h2>Punto 7</h2>
+<p>En este problema, se utilizarán los enfoques de los vectores de apoyo a fin de predecir si un coche determinado tiene un alto o bajo kilometraje de gasolina basado en la Conjunto de datos automático.</p>
+<p><strong>(a)</strong> Crear una variable binaria que toma un 1 para los coches con gasolina el kilometraje por encima de la mediana, y un 0 para los coches con kilometraje de gasolina por debajo de la media.</p>
+<pre class="r"><code>library(ISLR)
+cuan &lt;- quantile(Auto$mpg)
+per50 &lt;- cuan[3]
+new_auto &lt;- Auto
+new_auto[&quot;Y&quot;] &lt;- rep(0, 392)
+for(i in 1:392){
+if(new_auto$mpg[i]&gt;per50){
+new_auto$Y[i] = 1
+}else{
+new_auto$Y[i] = 0
+}
+}</code></pre>
+<p><strong>(b)</strong> Ajustar un clasificador de vectores de apoyo a los datos con diversos valores del costo, para predecir si un coche tiene alta o baja gasolina kilometraje. Reporte los errores de validación cruzada asociados con diferentes valores de este parámetro. Comente sus resultados.</p>
+<p>El parámetro costo(C) controla el balence entre sesgo y varianza del clasificador, si C = 0, ninguna observación viola la margen, si C &gt; 0 a lo sumo C observaciones pueden violar la margen. Por lo tanto si C amuenta entonces la margen se amplía y si C disminuye se angosta la margen lo cual disminuye el sesgo, pero hay mayor variabiliad, por lo tanto se busca un C optimo. Para la busquedda de este hiperparámetro se usara Cross-validation k-folds con k=10.</p>
+<pre class="r"><code>library(e1071)
+library(ggplot2)
+#Usando cross validation K-folds con k=10
+set.seed(123356)
+tune.cost &lt;- tune(svm ,as.factor(Y)~.,data=new_auto ,kernel =&quot;linear&quot;,
+ranges =list(cost=c(0.001,0.01,0.1, 1,2,5,10,50)))
+summary(tune.cost$best.model)</code></pre>
+<pre><code>## 
+## Call:
+## best.tune(method = svm, train.x = as.factor(Y) ~ ., data = new_auto, 
+##     ranges = list(cost = c(0.001, 0.01, 0.1, 1, 2, 5, 10, 50)), 
+##     kernel = &quot;linear&quot;)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  1 
+## 
+## Number of Support Vectors:  56
+## 
+##  ( 26 30 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>ggplot(data = tune.cost$performances, aes(x = cost, y = error)) +
+geom_line() +
+geom_point() +
+labs(title = &quot;Error de validación ~ hiperparámetro C&quot;) +
+theme_bw() +
+theme(plot.title = element_text(hjust = 0.2))</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Vemos que la menor tasa error de clasificación usando cross-validation se da cuando el cost = 1, es decir, solo se permite a lo sumo una observación dentro de las margenes. Al no ser grande el valor de este hiperparámetro tenemos disminución del sesgo pero aumenta la variabilidad.</p>
+<p><strong>(c)</strong> Ahora repita (b), esta vez usando SVM con radial y polinomio con diferentes valores de gamma y grado y costo. Comente sus resultados.</p>
+<pre class="r"><code># Kernel radial
+set.seed(154699)
+tune.costR &lt;- tune(svm, as.factor(Y)~.,data=new_auto ,kernel =&quot;radial&quot;,
+ranges =list(cost=c(0.001,0.01,0.1, 1,5),
+gamma=c(0.01,0.1,1,5,10)))
+summary(tune.costR$best.model)</code></pre>
+<pre><code>## 
+## Call:
+## best.tune(method = svm, train.x = as.factor(Y) ~ ., data = new_auto, 
+##     ranges = list(cost = c(0.001, 0.01, 0.1, 1, 5), gamma = c(0.01, 
+##         0.1, 1, 5, 10)), kernel = &quot;radial&quot;)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  radial 
+##        cost:  5 
+## 
+## Number of Support Vectors:  86
+## 
+##  ( 48 38 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>ggplot(data = tune.costR$performances,
+aes(x = cost, y = error, col = as.factor(gamma))) +
+geom_line() +
+geom_point() +
+labs(title = &quot;Error de validación ~ hiperparámetro C y gamma&quot;) +
+theme(plot.title = element_text(hjust = 0.5)) +
+theme_bw() + theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Vemos que la menor tasa de clasificación usando cross-valitadion es cuando el vector de hiperpáramtres cost y gamma es (5, 0.1). También se observa en el gráfico que para un valor de gamma igual o mayor a 5 la tasa de error de clasificación no varia demasiado.</p>
+<pre class="r"><code># Kernel polinomiales
+set.seed(123564)
+tune.costP &lt;- tune(svm,as.factor(Y)~.,data=new_auto ,kernel =&quot;polynomial&quot;,
+ranges =list(cost=c(0.001,0.01,0.1, 1,5),
+degree=c(1,2,4,3,5)))
+summary(tune.costP$best.model)</code></pre>
+<pre><code>## 
+## Call:
+## best.tune(method = svm, train.x = as.factor(Y) ~ ., data = new_auto, 
+##     ranges = list(cost = c(0.001, 0.01, 0.1, 1, 5), degree = c(1, 
+##         2, 4, 3, 5)), kernel = &quot;polynomial&quot;)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  polynomial 
+##        cost:  5 
+##      degree:  1 
+##      coef.0:  0 
+## 
+## Number of Support Vectors:  132
+## 
+##  ( 64 68 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>ggplot(data = tune.costP$performances,
+aes(x = cost, y = error, col = as.factor(degree))) +
+geom_line() +
+geom_point() +
+labs(title = &quot;Error de validación ~ hiperparámetro C y polinomio&quot;) +
+theme(plot.title = element_text(hjust = 0.5)) +
+theme_bw() + theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Vemos que la menor tasa de clasificación usando cross-valitadion es cuando el vector de hiperpáramtres cost y dregree es (1, 5). También se observa que para un grado de polinomio mayor o igual que 2 no se observa que la tasa del error varie, por lo tanto para este problema se recomienda utilizar un kernel lineal.</p>
+<p><strong>(d)</strong> Haga algunas tramas para respaldar sus afirmaciones en (b) y (c). Sugerencia: En el laboratorio, usamos la función plot() para los objetos svm sólo en los casos con p = 2. Cuando p &gt; 2, puedes usar la gráfica() para crear gráficos que muestren pares de variables a la vez. Esencialmente, en lugar de escribir</p>
+<p>trama(svmfit , dat) donde svmfit contiene su modelo ajustado y dat es un marco de datos que contiene sus datos, puede escribir</p>
+<p>trama(svmfit , dat , x1???x4) con el fin de trazar sólo la primera y cuarta variables. Sin embargo, usted debe reemplazar x1 y x4 con los nombres correctos de las variables. Para encontrar más, escriba plot.svm.</p>
+<pre class="r"><code>library(caret)</code></pre>
+<pre class="r"><code>set.seed(78954)
+t_1 &lt;- createDataPartition(y = new_auto$Y, p=0.75, list=FALSE, times = 1)
+train &lt;- new_auto[t_1, ]
+test &lt;- new_auto[-t_1,]
+svm.fit &lt;- svm(as.factor(Y)~.,data=train, type=&quot;C-classification&quot;,
+kernel =&quot;linear&quot;, cost=1)
+summary(svm.fit)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = as.factor(Y) ~ ., data = train, type = &quot;C-classification&quot;, 
+##     kernel = &quot;linear&quot;, cost = 1)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  1 
+## 
+## Number of Support Vectors:  49
+## 
+##  ( 26 23 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>nf &lt;- layout(matrix(c(1:4),2,2, byrow = TRUE),respect=TRUE)
+plot(svm.fit,test, mpg~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fit,test, mpg~acceleration)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fit,test, mpg~weight)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-37-3.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fit,test, weight~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-37-4.png" width="672" /></p>
+<pre class="r"><code>layout.show(nf)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-37-5.png" width="672" /></p>
+<pre class="r"><code>pred_lineal &lt;- predict(svm.fit, test[, -10])
+tb_l = table(real=test$Y, prediccion=pred_lineal)
+cat(&quot;Matriz de confusión \n&quot;)</code></pre>
+<pre><code>## Matriz de confusión</code></pre>
+<pre class="r"><code>addmargins(tb_l)</code></pre>
+<pre><code>##      prediccion
+## real   0  1 Sum
+##   0   48  1  49
+##   1    0 49  49
+##   Sum 48 50  98</code></pre>
+<p><strong>Kernel Radial:</strong></p>
+<pre class="r"><code>svm.fitR &lt;- svm(as.factor(Y)~.,data=train ,kernel =&quot;radial&quot;,
+type=&quot;C-classification&quot;,cost=5,gamma=0.1)
+summary(svm.fitR)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = as.factor(Y) ~ ., data = train, kernel = &quot;radial&quot;, 
+##     type = &quot;C-classification&quot;, cost = 5, gamma = 0.1)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  radial 
+##        cost:  5 
+## 
+## Number of Support Vectors:  73
+## 
+##  ( 40 33 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>plot(svm.fitR,test, mpg~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitR,test, mpg~acceleration)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitR,test, mpg~weight)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-40-3.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitR,test, weight~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-40-4.png" width="672" /></p>
+<pre class="r"><code>pred_radial &lt;- predict(svm.fitR, test[, -10])
+tb_r = table(real=test$Y, prediccion=pred_radial)
+cat(&quot;Matriz de confusión \n&quot;)</code></pre>
+<pre><code>## Matriz de confusión</code></pre>
+<pre class="r"><code>addmargins(tb_r)</code></pre>
+<pre><code>##      prediccion
+## real   0  1 Sum
+##   0   48  1  49
+##   1    0 49  49
+##   Sum 48 50  98</code></pre>
+<p><strong>Kernel Polinomial:</strong></p>
+<pre class="r"><code>svm.fitP &lt;- svm(as.factor(Y)~.,data=train ,kernel =&quot;polynomial&quot;, type=&quot;C-classification&quot;,
+cost=5,degree=1)
+summary(svm.fitP)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = as.factor(Y) ~ ., data = train, kernel = &quot;polynomial&quot;, 
+##     type = &quot;C-classification&quot;, cost = 5, degree = 1)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  polynomial 
+##        cost:  5 
+##      degree:  1 
+##      coef.0:  0 
+## 
+## Number of Support Vectors:  106
+## 
+##  ( 53 53 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  0 1</code></pre>
+<pre class="r"><code>plot(svm.fitP,test, mpg~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitP,test, mpg~acceleration)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-43-2.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitP,test, mpg~weight)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-43-3.png" width="672" /></p>
+<pre class="r"><code>plot(svm.fitP,test, weight~displacement)</code></pre>
+<p><img src="bod_files/figure-html/unnamed-chunk-43-4.png" width="672" /></p>
+<pre class="r"><code># error de entrenamiento
+#matriz de confusión
+pred_poly &lt;- predict(svm.fitP, test[, -10])
+tb_p = table(real=test$Y, prediccion=pred_poly)
+cat(&quot;Matriz de confusión \n&quot;)</code></pre>
+<pre><code>## Matriz de confusión</code></pre>
+<pre class="r"><code>addmargins(tb_p)</code></pre>
+<pre><code>##      prediccion
+## real   0  1 Sum
+##   0   40  9  49
+##   1    1 48  49
+##   Sum 41 57  98</code></pre>
+<p>Luego de los resultados obtenidos anteriormente, los modelos que mejor se comportan son usando Kernel Lineal y radial, ya que, la tasa de error de clasificación para estos fue el mismo, otro resultado importante fue que usando kernel polinomial el mejor resultado se obtuvo con un polinomio de grado 1.</p>
+</div>
+<div id="punto-8" class="section level2">
+<h2>Punto 8</h2>
+<p>Este problema involucra el conjunto de datos del OJ que es parte del ISLR paquete.</p>
+<p><strong>(a)</strong> Cree un conjunto de entrenamiento que contenga una muestra aleatoria de 800 observaciones y un conjunto de prueba que contenga las observaciones restantes.</p>
+<pre class="r"><code>set.seed(6)
+train8 &lt;- sample(nrow(OJ), 800)
+OJ.train8 &lt;- OJ[train8, ]
+OJ.test8 &lt;- OJ[-train8, ]</code></pre>
+<p><strong>(b)</strong> Ajuste un clasificador de vector de soporte a los datos de entrenamiento usando cost = 0.01, con Purchase como respuesta y las otras variables como predictores. Use la función summary() para generar estadísticas resumidas y describir los resultados obtenidos.</p>
+<pre class="r"><code>svm.linear8 &lt;- svm(Purchase ~ ., data = OJ.train8, kernel = &quot;linear&quot;, cost = 0.01)
+summary(svm.linear8)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = Purchase ~ ., data = OJ.train8, kernel = &quot;linear&quot;, 
+##     cost = 0.01)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  linear 
+##        cost:  0.01 
+## 
+## Number of Support Vectors:  449
+## 
+##  ( 225 224 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  CH MM</code></pre>
+<p>El clasificador de vectores de soporte crea 449 vectores de soporte de 800 puntos de entrenamiento. De estos, 225 pertenecen al nivel CH y los 224 restantes pertenecen al nivel MM.</p>
+<p><strong>(c)</strong> ¿Cuáles son las tasas de error de entrenamiento y prueba?</p>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.pred8 &lt;- predict(svm.linear8, OJ.train8)
+table(OJ.train8$Purchase, train.pred8)</code></pre>
+<pre><code>##     train.pred8
+##       CH  MM
+##   CH 413  65
+##   MM  83 239</code></pre>
+<pre class="r"><code>((83+65)/(413+65+83+239))</code></pre>
+<pre><code>## [1] 0.185</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.pred8 &lt;- predict(svm.linear8, OJ.test8)
+table(OJ.test8$Purchase, test.pred8)</code></pre>
+<pre><code>##     test.pred8
+##       CH  MM
+##   CH 158  17
+##   MM  14  81</code></pre>
+<pre class="r"><code>((14+17)/(158+17+14+81))</code></pre>
+<pre><code>## [1] 0.1148148</code></pre>
+<p>La tasa de error de entrenamiento es de 18.5% y la tasa de error de prueba es de aproximadamente 11.48%.</p>
+<p><strong>(d)</strong> Use la función tune() para seleccionar un cost óptimo. Considere valores en el rango de 0.01 a 10.</p>
+<pre class="r"><code>set.seed(7)
+tune.out8 &lt;- tune(svm, Purchase ~ ., data = OJ.train8, kernel = &quot;linear&quot;, ranges = list(cost = 10^seq(-2, 1, by = 0.25)))
+summary(tune.out8)</code></pre>
+<pre><code>## 
+## Parameter tuning of &#39;svm&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##      cost
+##  1.778279
+## 
+## - best performance: 0.17875 
+## 
+## - Detailed performance results:
+##           cost   error dispersion
+## 1   0.01000000 0.19000 0.05027701
+## 2   0.01778279 0.18875 0.04308019
+## 3   0.03162278 0.18250 0.04684490
+## 4   0.05623413 0.18250 0.04794383
+## 5   0.10000000 0.18625 0.04767147
+## 6   0.17782794 0.18625 0.04505013
+## 7   0.31622777 0.18250 0.04495368
+## 8   0.56234133 0.18375 0.04931827
+## 9   1.00000000 0.18125 0.05179085
+## 10  1.77827941 0.17875 0.04715886
+## 11  3.16227766 0.18125 0.04535738
+## 12  5.62341325 0.18375 0.04168749
+## 13 10.00000000 0.18375 0.04084609</code></pre>
+<p>El costo óptimo es de 1.778279.</p>
+<p><strong>(e)</strong> Calcule las tasas de error de entrenamiento y prueba utilizando este nuevo valor de cost.</p>
+<pre class="r"><code>svm.linear88 &lt;- svm(Purchase ~ ., kernel = &quot;linear&quot;, data = OJ.train8, cost = tune.out8$best.parameter$cost)</code></pre>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.pred88 &lt;- predict(svm.linear88, OJ.train8)
+table(OJ.train8$Purchase, train.pred88)</code></pre>
+<pre><code>##     train.pred88
+##       CH  MM
+##   CH 415  63
+##   MM  74 248</code></pre>
+<pre class="r"><code>(74 + 63) / (415+63+74+248)</code></pre>
+<pre><code>## [1] 0.17125</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.pred88 &lt;- predict(svm.linear88, OJ.test8)
+table(OJ.test8$Purchase, test.pred88)</code></pre>
+<pre><code>##     test.pred88
+##       CH  MM
+##   CH 157  18
+##   MM  12  83</code></pre>
+<pre class="r"><code>(12 + 18) / (157+18+12+83)</code></pre>
+<pre><code>## [1] 0.1111111</code></pre>
+<p>Usando un costo igual a 1.778279, la tasa de error de entrenamiento es de 17.125% y la tasa de error de prueba es de aproximadamente 11.11%. El valor encontrado para el costo óptimo redujo poco las tasas de error.</p>
+<p><strong>(f)</strong> Repita las partes (b) a (e) usando una máquina de vectores de soporte con un núcleo radial. Use el valor predeterminado para gamma.</p>
+<pre class="r"><code>svm.radial9 &lt;- svm(Purchase ~ ., kernel = &quot;radial&quot;, data = OJ.train8)
+summary(svm.radial9)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = Purchase ~ ., data = OJ.train8, kernel = &quot;radial&quot;)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  radial 
+##        cost:  1 
+## 
+## Number of Support Vectors:  388
+## 
+##  ( 195 193 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  CH MM</code></pre>
+<p>El nícleo radial con el valor de gamma predeterminado crea 338 vectores de soporte, de estos, 195 pertenecen al nivel CH y los 193 restantes pertenecen al nivel MM.</p>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.pred9 &lt;- predict(svm.radial9, OJ.train8)
+table(OJ.train8$Purchase, train.pred9)</code></pre>
+<pre><code>##     train.pred9
+##       CH  MM
+##   CH 432  46
+##   MM  84 238</code></pre>
+<pre class="r"><code>(84+46) / (432+46+84+238)</code></pre>
+<pre><code>## [1] 0.1625</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.pred9 &lt;- predict(svm.radial9, OJ.test8)
+table(OJ.test8$Purchase, test.pred9)</code></pre>
+<pre><code>##     test.pred9
+##       CH  MM
+##   CH 159  16
+##   MM  21  74</code></pre>
+<pre class="r"><code>(21+16) / (159+16+21+74)</code></pre>
+<pre><code>## [1] 0.137037</code></pre>
+<p>El clasificador tiene un error de entrenamiento del 16.25% y un error de prueba del 13.704%, es una mejora respecto al núcleo lineal en el error de entrenamiento pero en el error de prueba aumentó ligeramente.</p>
+<p>Se usa la función tune para encontrar el cost óptimo:</p>
+<pre class="r"><code>set.seed(25)
+tune.out3 &lt;- tune(svm, Purchase ~ ., data = OJ.train8, kernel = &quot;radial&quot;, ranges = list(cost = 10^seq(-2, 
+    1, by = 0.25)))
+summary(tune.out3)</code></pre>
+<pre><code>## 
+## Parameter tuning of &#39;svm&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##  cost
+##     1
+## 
+## - best performance: 0.18625 
+## 
+## - Detailed performance results:
+##           cost   error dispersion
+## 1   0.01000000 0.40250 0.05263871
+## 2   0.01778279 0.40250 0.05263871
+## 3   0.03162278 0.33375 0.08820155
+## 4   0.05623413 0.21000 0.05263871
+## 5   0.10000000 0.19250 0.06129392
+## 6   0.17782794 0.19000 0.05361903
+## 7   0.31622777 0.18750 0.04677072
+## 8   0.56234133 0.18750 0.04787136
+## 9   1.00000000 0.18625 0.04980866
+## 10  1.77827941 0.19375 0.04419417
+## 11  3.16227766 0.19125 0.04715886
+## 12  5.62341325 0.19750 0.04322101
+## 13 10.00000000 0.19750 0.05096295</code></pre>
+<pre class="r"><code>svm.radial3 &lt;- svm(Purchase ~ ., kernel = &quot;radial&quot;, data = OJ.train8, cost = tune.out3$best.parameter$cost)
+summary(svm.radial3)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = Purchase ~ ., data = OJ.train8, kernel = &quot;radial&quot;, 
+##     cost = tune.out3$best.parameter$cost)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  radial 
+##        cost:  1 
+## 
+## Number of Support Vectors:  388
+## 
+##  ( 195 193 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  CH MM</code></pre>
+<p>El costo óptimo encontrado fue de 1.</p>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.pred3 &lt;- predict(svm.radial3, OJ.train8)
+table(OJ.train8$Purchase, train.pred3)</code></pre>
+<pre><code>##     train.pred3
+##       CH  MM
+##   CH 432  46
+##   MM  84 238</code></pre>
+<pre class="r"><code>(84+238)/(432+46+84+238)</code></pre>
+<pre><code>## [1] 0.4025</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.pred3 &lt;- predict(svm.radial3, OJ.test8)
+table(OJ.test8$Purchase, test.pred3)</code></pre>
+<pre><code>##     test.pred3
+##       CH  MM
+##   CH 159  16
+##   MM  21  74</code></pre>
+<pre class="r"><code>(21+16)/(159+16+21+74)</code></pre>
+<pre><code>## [1] 0.137037</code></pre>
+<p>Las tasas de error de entrenamiento y prueba fueron 40.25% y 13.704% respectivamente. El costo óptimo no reduce las tasas de error.</p>
+<p><strong>(g)</strong> Repita las partes (b) a (e) usando una máquina de vectores de soporte con un kernel polinomial. Use degree=2</p>
+<pre class="r"><code>svm.polypp &lt;- svm(Purchase ~ ., kernel = &quot;polynomial&quot;, data = OJ.train8, degree = 2)
+summary(svm.polypp)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = Purchase ~ ., data = OJ.train8, kernel = &quot;polynomial&quot;, 
+##     degree = 2)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  polynomial 
+##        cost:  1 
+##      degree:  2 
+##      coef.0:  0 
+## 
+## Number of Support Vectors:  462
+## 
+##  ( 235 227 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  CH MM</code></pre>
+<p>El kernel polinómico de grados dos creea 462 vectores de soporte con 235 para CH y 227 para MM.</p>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.predp &lt;- predict(svm.polypp, OJ.train8)
+table(OJ.train8$Purchase, train.predp)</code></pre>
+<pre><code>##     train.predp
+##       CH  MM
+##   CH 445  33
+##   MM 123 199</code></pre>
+<pre class="r"><code>(123+33)/(445+33+123+199)</code></pre>
+<pre><code>## [1] 0.195</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.predp &lt;- predict(svm.polypp, OJ.test8)
+table(OJ.test8$Purchase, test.predp)</code></pre>
+<pre><code>##     test.predp
+##       CH  MM
+##   CH 159  16
+##   MM  33  62</code></pre>
+<pre class="r"><code>(33+16)/(159+16+33+62)</code></pre>
+<pre><code>## [1] 0.1814815</code></pre>
+<p>Las tasas de error para los datos de entrenamiento y prueba son 19.5% y 18.15% respectivamente.</p>
+<p>Ahora encontramos el valor óptimo para cost.</p>
+<pre class="r"><code>set.seed(75)
+tune.out16 &lt;- tune(svm, Purchase ~ ., data = OJ.train8, kernel = &quot;polynomial&quot;, degree = 2, ranges = list(cost = 10^seq(-2, 
+    1, by = 0.25)))
+summary(tune.out16)</code></pre>
+<pre><code>## 
+## Parameter tuning of &#39;svm&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##      cost
+##  5.623413
+## 
+## - best performance: 0.1925 
+## 
+## - Detailed performance results:
+##           cost   error dispersion
+## 1   0.01000000 0.40125 0.06331414
+## 2   0.01778279 0.38125 0.06380580
+## 3   0.03162278 0.37125 0.07047705
+## 4   0.05623413 0.33875 0.06136469
+## 5   0.10000000 0.32375 0.05816941
+## 6   0.17782794 0.25000 0.05980292
+## 7   0.31622777 0.21500 0.05361903
+## 8   0.56234133 0.21375 0.04910660
+## 9   1.00000000 0.21250 0.04823265
+## 10  1.77827941 0.20125 0.05846711
+## 11  3.16227766 0.19625 0.05205833
+## 12  5.62341325 0.19250 0.05109903
+## 13 10.00000000 0.19250 0.05627314</code></pre>
+<pre class="r"><code>svm.polypq &lt;- svm(Purchase ~ ., kernel = &quot;polynomial&quot;, degree = 2, data = OJ.train8, cost = tune.out16$best.parameter$cost)
+summary(svm.polypq)</code></pre>
+<pre><code>## 
+## Call:
+## svm(formula = Purchase ~ ., data = OJ.train8, kernel = &quot;polynomial&quot;, 
+##     degree = 2, cost = tune.out16$best.parameter$cost)
+## 
+## 
+## Parameters:
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  polynomial 
+##        cost:  5.623413 
+##      degree:  2 
+##      coef.0:  0 
+## 
+## Number of Support Vectors:  379
+## 
+##  ( 196 183 )
+## 
+## 
+## Number of Classes:  2 
+## 
+## Levels: 
+##  CH MM</code></pre>
+<p>Matriz de confusión para los datos de entrenamiento:</p>
+<pre class="r"><code>train.predpq &lt;- predict(svm.polypq, OJ.train8)
+table(OJ.train8$Purchase, train.predpq)</code></pre>
+<pre><code>##     train.predpq
+##       CH  MM
+##   CH 439  39
+##   MM  89 233</code></pre>
+<pre class="r"><code>(89+39)/(439+39+89+233)</code></pre>
+<pre><code>## [1] 0.16</code></pre>
+<p>Matriz de confusión para los datos de prueba:</p>
+<pre class="r"><code>test.predpq &lt;- predict(svm.polypq, OJ.test8)
+table(OJ.test8$Purchase, test.predpq)</code></pre>
+<pre><code>##     test.predpq
+##       CH  MM
+##   CH 160  15
+##   MM  22  73</code></pre>
+<pre class="r"><code>(22+15)/(160+15+22+73)</code></pre>
+<pre><code>## [1] 0.137037</code></pre>
+<p>Las tasas de error para los datos de entrenamiento prueba con el costo óptimo fueron de 16% y 13.704%.</p>
+<p><strong>(h)</strong> En general, ¿qué enfoque parece dar los mejores resultados con estos datos?</p>
+<p>Como conclusión general se puede decir que en algunos casos el núcleo radial funcionó mejor.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

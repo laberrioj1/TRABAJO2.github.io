@@ -1,0 +1,576 @@
+# {.tabset .tabset-fade .tabset-pills}
+
+
+## Punto 10
+Esta pregunta debe responderse utilizando el conjunto de datos semanal, que es parte del paquete ISLR. Estos datos son similares en naturaleza a Datos de mercado del laboratorio de este capítulo, excepto que contiene 1.089 devoluciones semanales durante 21 años, desde principios de 1990 hasta finales de 2010.
+
+**(a)** Produzca algunos resúmenes numéricos y gráficos de los datos en ***Weekly***. ¿Parece haber algún patrón?
+
+```{r}
+library(ISLR)
+data("Weekly")
+summary(Weekly)
+```
+
+Obtenemos la matriz de correlación sin incluir la variable Direction:
+
+```{r}
+cor(Weekly[,-9])
+
+```
+
+De acuerdo a la matriz de correlación descrita anteriormente, la correlación positiva más alta de 0.842, se da entre las variables Año y Volumen por lo tanto se decide hacer un gráfico para estas dos variables. 
+
+```{r}
+plot(Weekly$Year,Weekly$Volume, xlab = "Year", ylab = "Volume",main = "Gráfico Año vs Volumen",type = "p")
+```
+
+En el gráfico se puede evidenciar que la variable Volume crece a media que el tiempo aumenta, por lo tanto el promedio diario de acciones negociadas en mlies de millones ha estado en crecimiento en los años 1990 y 2010.
+
+```{r}
+library(plotly)
+plot_ly(Weekly,y=~Volume,x=~Direction,type="box")
+```
+
+En el boxplot de Volume vs Direction se evidencia poca variabilidad entre los dos niveles de la variable Direction, Down y Up debido a la variable Volume, además se puede ver alta dispersión entre los puntos y parece no existir grandes diferencias. El gráfico es interactivo por lo tanto se pueden conocer los valores importantes dentro del gráfico solo con pasar el cursor sobre el.
+
+**(b)** Utilice el conjunto de datos completo para realizar una regresión logística con ***Direction*** como respuesta y las cinco variables de Lag más Volume como predictores. Use la función de resumen para imprimir los resultados. ¿Alguno de los predictores parece ser estadísticamente significativo? Si es así,¿cuáles?
+
+El modelo de regresión logístico ajustado es el siguiente:
+
+```{r}
+mod1 <- glm( Direction ~ Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data = Weekly,family = "binomial")
+summary(mod1)
+```
+
+Con el summary se observa que la variable Lag2 con un **P-valor** de 0.0296 es estadisiticamente significativa si se toma un nivel de significancia de referencia de 0.05.
+
+
+**(c)** Calcule la matriz de confusión y la fracción general de la predicciones correctas. Explica lo que dice la matriz de confusión sobre los tipos de errores cometidos por la regresión logística.
+
+Matriz de confusión:
+
+```{r}
+prediction <- mod1$fitted.values
+pred<- rep("Down",length(prediction))
+pred[prediction > 0.5]<- "Up"
+table(pred,Weekly$Direction)
+((557+54)/(54+48+430+557))*100
+```
+
+Los elementos de una de las diagonales de la mtriz de confusión en los que el modelo ajustado predijo correctamente que el mercado tendría un rendimiento positivo en 557 días y un rendimiento negativo en 54 días, en total 611 predicciones correctas, el modejo predijo correctamente el 56.11% de las veces. La tasa de error es de 100-56.11 = 43.89%.   
+
+**(d)** Ahora ajuste el modelo de regresión logística usando un período de datos de entrenamiento desde 1990 hasta 2008, con ***Lag2*** como el único predictor. Calcule la matriz de confusión y la fracción general de predicciones correctas para los datos retenidos (es decir, los datos de 2009 y 2010).
+
+Modelo ajustado usando ***Lag2*** como único predictor:
+
+```{r}
+train <- subset.data.frame(x = Weekly,subset = Year < 2009)
+test2009_2010 <- subset.data.frame(Weekly,subset = Year >=2009)
+mod2 <- glm(Direction ~ Lag2 ,data = train,family = binomial)
+summary(mod2)
+```
+
+Matriz de confusión:
+
+```{r}
+prediction2 <- predict(object = mod2,newdata = test2009_2010,type = "response")
+pred2<- rep("Dow",length(prediction2))
+pred2[prediction2 > 0.5]<- "Up"
+table(pred2,test2009_2010$Direction)
+((9+56)/(9+5+34+56))*100
+```
+
+Usando la matriz de confusión y los datos de prueba, se puede observar que el porcentaje de predicciones correctas es 62.5%. La tasa de error para este modelo ajustado es 100-62.5 = 37.5%. Además se puede percibir que cuando el mercado sube, el modelo predice correctamente 91.8% de las veces y cuando baja predice correctamente un 79.6% de las veces.
+
+
+**(e)** Repita (d) usando **LDA**
+
+Ajustamos el modelo usando ***LDA***:
+
+```{r}
+library(MASS)
+modlda <- lda(Direction~Lag2,data = train)
+modlda
+```
+
+Matriz de confusión:
+
+```{r}
+prediction_LDA <- predict(object = modlda,newdata = test2009_2010)
+table(prediction_LDA$class,test2009_2010$Direction)
+((9+56)/(9+5+34+56))*100
+```
+
+La matriz de confusión ajustando el modelo con LDA es la misma que cuando se ajusta con regresión lógistica,podemos concluir que el porcentaje predicciones correctas es de 62.5% de las veces. La tasa de error es de 37.5%. 
+
+
+**(f)** Repita (d) usando **QDA**
+
+Ajustamos el modelo usando **QDA**:
+
+```{r}
+mod_QDA <-  qda(Direction~Lag2,data = train)
+mod_QDA
+```
+
+
+```{r}
+prediction_QDA <- predict(mod_QDA,newdata = test2009_2010)
+table(prediction_QDA$class,test2009_2010$Direction)
+((61)/(61+43))*100
+```
+
+
+Con la tabla de confusión y los datos de prueba, se concluye que el porcentaje de predicciones acertadas es de 58.65%. La tasa de error con los datos de prueba es de 41.35%. Además cuando el mercado sube, el modelo predice correctamente 100% de la veces, se debe tener en cuenta que este modelo toma como referencia el valor Up de Direction.
+
+**(g)** Repita (d) usando Knn con k=1.
+
+Matriz de confusión:
+
+```{r}
+library(class)
+train.x <- as.matrix(train$Lag2)
+test.x <- as.matrix(test2009_2010$Lag2)
+train.Direction <- train$Direction
+set.seed(23)
+prediction_knn <- knn(train = train.x,test = test.x,cl = train.Direction,k = 1)
+table(prediction_knn,test2009_2010$Direction)
+((21+32)/(21+29+22+32))*100
+```
+
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 50.962% de las veces. 
+
+**(h)** ¿Cuál de estos métodos parece proporcionar los mejores resultados en
+estos datos?
+
+Los modelos ajustados con regresión lógistica y LDA tienen tasas de error mas pequeña, además no hay muchas diferencias entre esos dos modelos por lo tanto usando cualquiera de estso dos métodos se tendrían mejores resultados que con los demás.
+
+**(i)** Experimente con diferentes combinaciones de predictores, incluyendo posibles transformaciones e interacciones, para cada una de las métodos. Informe las variables, el método y la matriz de confusión asociada. Matriz que parece proporcionar los mejores resultados en el contenido fuera de datos. Tenga en cuenta que también debe experimentar con valores para K en el clasificador KNN.
+
+Como se determinó en un literal anterior, la variable más significativa es Lag2 por lo tanto esta se mantiene fija en los proximos nuevos modelos ajustados. Adicionamos la variable Lag1 puesto que tiene un valor p más pequeño y podría estar dentro de los límites de significancia si se toma como valor de referencia de 0.1.
+
+Ajustamos el modelo con las variables Lag1 y Las2, usando el método de regresión lógistica:
+
+```{r}
+train1 <- (Weekly$Year < 2009)
+fit.glm3 <- glm( Direction ~ Lag1+Lag2,data = Weekly,family = "binomial", subset = train1)
+probs3 <- predict(fit.glm3, test2009_2010, type = "response")
+pred.glm3 <- rep("Down", length(probs3))
+pred.glm3[probs3 > 0.5] = "Up"
+table(pred.glm3, test2009_2010$Direction)
+((7+53)/(7+8+36+53))*100
+```
+
+La matriz de confusión para este caso concluye que el modelo ajustado predice correctamente el 57.69% de las veces. La tasa de error es de 42.31%.
+
+Como en los literales anteriores los resultados usando regresión lógistica y LDA fueron muy similares, no se tendrá en cuenta ajusatrlo por el método LDA.
+
+Ajustamos el modelo con las variables Lag1 y Lag2 usando el método de QDA:
+
+```{r}
+fit.qda2 <- qda(Direction ~ Lag1 + Lag2, data = Weekly, subset = train1)
+pred.qda2 <- predict(fit.qda2, test2009_2010)
+table(pred.qda2$class, test2009_2010$Direction)
+mean(pred.qda2$class == test2009_2010$Direction)*100
+```
+
+La matriz de confusión para este caso concluye que el modelo ajustado predice correctamente el 55.77% de las veces. La tasa de error es de 42.23%.
+
+Ajustamos el modelo con las variables Lag1 y Lag2 usando el método de KNN:
+
+**K=10**
+
+```{r}
+pred.knn10 <- knn(train.x, test.x, train.Direction, k = 10)
+table(pred.knn10, test2009_2010$Direction)
+mean(pred.knn10 == test2009_2010$Direction)*100
+```
+
+**K=50**
+
+```{r}
+pred.knn50 <- knn(train.x, test.x, train.Direction, k = 50)
+table(pred.knn50, test2009_2010$Direction)
+mean(pred.knn50 == test2009_2010$Direction)*100
+```
+
+**K=100**
+
+```{r}
+pred.knn100 <- knn(train.x, test.x, train.Direction, k = 100)
+table(pred.knn100, test2009_2010$Direction)
+mean(pred.knn100 == test2009_2010$Direction)*100
+```
+
+Para el método de KNN vemos que el porcentaje de predicción no varía mucho respecto al k elegido. De lo anterior podemos concluir que el método de regresión lósgistica y LDA tienen mejores resultados con un porcentaje de predicción más alto y tasa de error más baja.
+
+
+## Punto 11
+
+En este problema, desarrollará un modelo para predecir si un determinado el automóvil obtiene un consumo de combustible alto o bajo en función de ***Auto*** en el conjunto de datos.
+
+**(a)** Cree una variable binaria, ***mpg01***, que contenga un 1 si mpg contiene un valor por encima de su mediana, y un 0 si mpg contiene un valor por debajo es la mediana Puede calcular la mediana usando median() función. Tenga en cuenta que puede resultarle útil utilizar data.frame() función para crear un único conjunto de datos que contenga tanto mpg01 como Auto en las otras variables.
+
+```{r}
+library(ISLR)
+attach(Auto)
+set.seed(2015)
+mpg01 <- rep(0, length(mpg))
+mpg01[mpg > median(mpg)] <- 1
+Auto1 <- data.frame(Auto, mpg01)
+```
+
+
+**(b)** Explore los datos gráficamente para investigar la asociación entre ***mpg01*** y las otras características. Qué características parecen ser más útiles para predecir mpg01? Gráfico de dispersión y los diagramas de caja pueden ser herramientas útiles para responder esta pregunta. Describe lod hallazgos.
+
+Matriz de correlación:
+
+```{r}
+cor(Auto1[, -9])
+```
+
+
+```{r}
+Conf3x2 = matrix(c(1:6), nrow=2, byrow=TRUE)
+layout(Conf3x2)
+boxplot(year ~ mpg01, data = Auto, main = "Year vs mpg01",col=c("#50C3EB","#8B9DFF"))
+boxplot(cylinders ~ mpg01, data = Auto, main = "Cylinders vs mpg01",col=c("#50C3EB","#8B9DFF"))
+boxplot(horsepower ~ mpg01, data = Auto, main = "Horsepower vs mpg01",col=c("#50C3EB","#8B9DFF"))
+boxplot(displacement ~ mpg01, data = Auto, main = "Displacement vs mpg01",col=c("#50C3EB","#8B9DFF"))
+boxplot(weight ~ mpg01, data = Auto, main = "Weight vs mpg01",col=c("#50C3EB","#8B9DFF"))
+boxplot(acceleration ~ mpg01, data = Auto, main = "Acceleration vs mpg01",col=c("#50C3EB","#8B9DFF"))
+```
+
+En los boxplot anteriores se evidencia alta variabilidad en algunas cajas, pero no hay muchos cambios entre cada una de las variables respecto a los niveles de la variable mpg01.
+
+**(c)** Divida los datos en un conjunto de entrenamiento y un conjunto de prueba.
+
+```{r}
+train11 <- (Auto1$year %% 2 == 0)
+Auto1.train <- Auto1[train11, ]
+Auto1.test <- Auto1[!train11, ]
+mpg01.test <- mpg01[!train11]
+```
+
+
+**(d)** Realice LDA en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?
+
+```{r}
+fit.lda1 <- lda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, subset = train11)
+fit.lda1
+```
+
+Matriz de confusión:
+
+```{r}
+pred.lda1 <- predict(fit.lda1, Auto1.test)
+table(pred.lda1$class, mpg01.test)
+((86+73)/182)*100
+```
+
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.363% de las veces. La tasa de error con los datos de prueba es de 12.637%.
+
+
+**(e)** Realice QDA en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?
+
+```{r}
+fit.qda1 <- qda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, subset = train11)
+fit.qda1
+```
+
+Matriz de confusión:
+
+```{r}
+pred.qda1 <- predict(fit.qda1, Auto1.test)
+table(pred.qda1$class, mpg01.test)
+((89+69)/182)*100
+```
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 86.8132% de las veces. La tasa de error con los datos de prueba es de 13.1868%.
+
+ 
+**(f)** Realizar regresión logística en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?  
+
+```{r}
+fit.glm11 <- glm(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, family = binomial, subset = train11)
+summary(fit.glm11)
+```
+
+Matriz de confusión:
+
+```{r}
+probs11 <- predict(fit.glm11, Auto1.test, type = "response")
+pred.glm11 <- rep(0, length(probs11))
+pred.glm11[probs11 > 0.5] <- 1
+table(pred.glm11, mpg01.test)
+((89+71)/182)*100
+```
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.9121% de las veces. La tasa de error con los datos de prueba es de 12.0879%.
+
+
+**(g)** Realice KNN en los datos de entrenamiento, con varios valores de K, en para predecir mpg01. Use solo las variables que parecían más asociado con mpg01 en (b). ¿Qué errores de prueba obtienes? ¿Qué valor de K parece tener el mejor rendimiento en este conjunto de datos?
+
+```{r}
+train.X <- cbind(cylinders, weight, displacement, horsepower)[train11, ]
+test.X <- cbind(cylinders, weight, displacement, horsepower)[!train11, ]
+train11.mpg01 <- mpg01[train11]
+```
+
+**K=10**
+
+```{r}
+set.seed(210)
+pred.knn11 <- knn(train.X, test.X, train11.mpg01, k = 10)
+table(pred.knn11, mpg01.test)
+((77+75)/182)*100
+```
+
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.9121% de las veces. La tasa de error con los datos de prueba es de 12.0879%.
+
+**K=5**
+
+```{r}
+set.seed(555)
+pred.knn5 <- knn(train.X, test.X, train11.mpg01, k = 5)
+table(pred.knn5, mpg01.test)
+((82+73)/182)*100
+```
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 85.165% de las veces. La tasa de error con los datos de prueba es de 14.835%.
+
+
+**K=51**
+
+```{r}
+set.seed(22)
+pred.knn51 <- knn(train.X, test.X, train11.mpg01, k = 51)
+table(pred.knn51, mpg01.test)
+((81+75)/182)*100
+```
+
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 85.7143% de las veces. La tasa de error con los datos de prueba es de 14.2857%.
+
+**K=120**
+
+```{r}
+set.seed(57)
+pred.knn100 <- knn(train.X, test.X, train11.mpg01, k = 120)
+table(pred.knn100, mpg01.test)
+((77+75)/182)*100
+```
+En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 83.52% de las veces. La tasa de error con los datos de prueba es de 16.48%.
+
+Se concluye que los mejores resultados están con K=5 y K=51, teniendo los porcetnajes de predicciones correctas más altas y las tasas de erro más pequeñas.
+
+## Punto 12
+
+Este problema implica escribir funciones.
+
+**(a)** Write a function, Power(), that prints out the result of raising 2 to the 3rd power. In other words, your function should compute 2^3 and print out the results.
+
+Hint: Recall that x^a raises x to the power a. Use the print()
+function to output the result.
+
+```{r}
+Power <- function() {
+    2^3
+}
+Power()
+```
+
+**(b)** Cree una nueva función, Power2(), que le permita pasar cualquier dos números, x y a, e imprime el valor de x ^ a. Usted puede haga esto comenzando su función con la línea, debería poder llamar a su función ingresando, por ejemplo,en la línea de comando. Esto debería generar el valor de 3^8, a saber,6.561.
+
+Power2 =function (x,a){Power2 (3,8)}
+
+```{r}
+Power2 <- function(x, a) {
+    x^a
+}
+
+Power2(3, 8)
+```
+
+**(c)** Usando la función Power2 () que acaba de escribir, calcule $10^3$ , $8^{17}$ y $131^3$.
+
+```{r}
+Power2(10, 3)
+```
+
+```{r}
+Power2(8, 17)
+```
+
+```{r}
+Power2(131, 3)
+```
+
+**(d)** Ahora cree una nueva función, Power3(), que en realidad devuelve el resulta $x^a$ como un objeto R, en lugar de simplemente imprimirlo en el pantalla. Es decir, si almacena el valor $x^a$ en un objeto llamado resultado dentro de su función, entonces simplemente puede return() esto resultado, utilizando la siguiente línea:
+
+return(result)
+La línea de arriba debe ser la última línea de su función, antes del símbolo de la }.
+
+```{r}
+Power3 <- function(x , a) {
+    result <- x^a
+    return(result)
+}
+
+```
+
+**(e)** Ahora, usando la función Power3(), crea un gráfico de f(x) = x2. El eje x debe mostrar un rango de números enteros de 1 a 10, y el eje y debería mostrar x2. Etiqueta los ejes apropiadamente, y usar un título apropiado para la figura. Considere la posibilidad de mostrar el eje X, el eje Y, o ambos en la escala logarítmica. Puedes hacer esto usando log=''x'', log=''y'', o log=''xy'' como argumentos para la función plot().
+
+```{r}
+x <- 1:10
+plot(x, Power3(x, 2), log = "xy", xlab = "Log of x", ylab = "Log of x^2", main = "Log of x^2 vs Log of x")
+```
+
+
+**(f)** Crear una función, PlotPower(), que permita crear un gráfico de x contra $x^a$ para una a fija y para un rango de valores de x. Para ejemplo, si llamas a
+PlotPower (1:10 ,3) entonces se debe crear un gráfico con un eje x que tome valores 1, 2, . . . ...10, y un eje Y que toma los valores 13, 23,..., 103.
+
+```{r}
+x <- 1:10
+plot(x, Power3(x, 2), log = "xy", xlab = "Log of x", ylab = "Log of x^2", main = "Log of x^2 vs Log of x")
+```
+
+## Punto 13
+
+Utilizando el conjunto de datos de Boston, ajustar los modelos de clasificación con el fin de predecir si un determinado suburbio tiene un índice de delincuencia superior o inferior a la mediana. Explorar la regresión logística, los modelos LDA y KNN usando varios subconjuntos de los pronosticadores. Describa sus hallazgos.
+
+Se crea una nueva variable donde es 1 si su indice de delincuencia es mayor a la mediana y 0 si es menor, esto para la variable crim, crim no se incluye en el modelo puesto que crim01 está creada a partir de crim. Luego se divide la base de datos en dos conjuntos para entrenamiento y prueba. Se decide ajustar dos modelos con para los métodos de regresión lógistica y LDA incluyendo o no las siguientes variables: ptratio, medv, tax, rad, nox.
+
+
+```{r}
+library(MASS)
+attach(Boston)
+crim01 <- rep(0, length(crim))
+crim01[crim > median(crim)] <- 1
+Boston1 <- data.frame(Boston, crim01)
+
+train13 <- 1:(length(crim) / 2)
+test13 <- (length(crim) / 2 + 1):length(crim)
+Boston.train <- Boston1[train13, ]
+Boston.test <- Boston1[test13, ]
+crim01.test <- crim01[test13]
+```
+
+Ajustamos el modelo usando predicción lógistica, utilizando todas las varibles:
+
+```{r}
+fit.glm13 <- glm(crim01 ~ . - crim, data = Boston1, family = binomial, subset = train13)
+probs13 <- predict(fit.glm13, Boston.test, type = "response")
+pred.glm13 <- rep(0, length(probs13))
+pred.glm13[probs13 > 0.5] <- 1
+table(pred.glm13, crim01.test)
+((68+139)/253)*100
+```
+
+En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo es de 81.82% y la tasa de error para este modelo de predicción con los datos de prueba es de 18.18%. 
+
+Ajustando el modelo de regresión lógistica sin incluir las variables descritas anteriormente:
+
+```{r}
+fit.glm113 <- glm(crim01 ~ . -crim - ptratio -medv -tax -rad -nox - chas, data = Boston1, family = binomial, subset = train13)
+probs113 <- predict(fit.glm113, Boston.test, type = "response")
+pred.glm113 <- rep(0, length(probs113))
+pred.glm113[probs113 > 0.5] <- 1
+table(pred.glm113, crim01.test)
+((83+122)/253)*100
+```
+
+En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo es de 81.03% y la tasa de error para este modelo de predicción con los datos de prueba es de 18.97%. 
+
+Ajustando el modelo de predicción usando el método LDA incluyendo las variables:
+
+```{r}
+fit.lda13 <- lda(crim01 ~ . - crim01 - crim, data = Boston1, subset = train13)
+pred.lda13 <- predict(fit.lda13, Boston.test)
+table(pred.lda13$class, crim01.test)
+((80+139)/253)*100
+```
+En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo usando LDA es de 86.56% y la tasa de error para este modelo de predicción con los datos de prueba es de 13.44%.
+
+
+Ajustando el modelo usando el método LDA sin incluir las variables:
+
+```{r}
+fit.lda113 <- lda(crim01 ~ . - crim01 - crim - ptratio -medv -tax -rad -nox - chas, data = Boston1, subset = train13)
+pred.lda113 <- predict(fit.lda113, Boston.test)
+table(pred.lda113$class, crim01.test)
+((83+127)/253)*100
+```
+En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo usando LDA es de 83.004% y la tasa de error para este modelo de predicción con los datos de prueba es de 16.996%.
+
+Ajustando el modelo usando KNN, buscamos los valores de k óptimos:
+
+```{r}
+dat_scal <- scale(Boston1)
+dat_dist=dist(dat_scal)
+
+dat_clust=hclust(dat_dist,method="single")
+
+
+library(FactoClass)
+library(ggplot2)
+library(factoextra)
+Conf3x1 = matrix(c(1:4), nrow=2, byrow=TRUE)
+layout(Conf3x1)
+fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = "silhouette") ## metodo del codo
+fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = "wss")
+fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = "gap_stat")
+
+```
+
+
+```{r}
+train.X13 <- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[train13, ]
+test.X13 <- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[test13, ]
+train.crim01 <- crim01[train13]
+```
+
+**K=2**
+
+```{r}
+set.seed(13)
+pred.knn13 <- knn(train.X13, test.X13, train.crim01, k = 2)
+table(pred.knn13, crim01.test)
+((86+84)/253)*100
+```
+
+El porcentaje de predicciones correctas que predice el modelo usando KNN con k=2 es de 67.194% y la tasa de error para este modelo de predicción con los datos de prueba es de 32.806%.
+
+**K=9**
+
+```{r}
+set.seed(1997)
+pred.knn9 <- knn(train.X13, test.X13, train.crim01, k = 9)
+table(pred.knn9, crim01.test)
+((83+142)/253)*100
+```
+
+El porcentaje de predicciones correctas que predice el modelo usando KNN con k=9 es de 88.933% y la tasa de error para este modelo de predicción con los datos de prueba es de 11.067%.
+
+
+**K=15**
+
+```{r}
+set.seed(15)
+pred.knn15 <- knn(train.X13, test.X13, train.crim01, k = 15)
+table(pred.knn15, crim01.test)
+((83+140)/253)*100
+```
+
+El porcentaje de predicciones correctas que predice el modelo usando KNN con k=15 es de 88.14% y la tasa de error para este modelo de predicción con los datos de prueba es de 11.86%.
+
+**K=80**
+
+```{r}
+set.seed(80)
+pred.knn80 <- knn(train.X13, test.X13, train.crim01, k = 80)
+table(pred.knn80, crim01.test)
+((85+132)/253)*100
+```
+
+El porcentaje de predicciones correctas que predice el modelo usando KNN con k=80 es de 85.8% y la tasa de error para este modelo de predicción con los datos de prueba es de 14.2%.
+
+
+En los modelos ajustados para predecir si un determinado suburbio tiene un índice de delincuencia mayor o menor a la mediana de criminalidad, se encontró que los resultados de los porcentajes predichos correctamente no tuvieron grandes cambios de acuerdo a si se incluían o no las variables, esto para los métodos de LDA y regresión lógistica, esto era de esperarse puesto que ambos llegan a resultados muy similares siendo en este caso LDA mejor por tener las menores tasas de error. Para el método KNN se decide no utilizar dos conjuntos de variables sino todas las variables menos crim, en este caso para valores de k mayores a 9 no hay mucha diferencia entre los porcentajes de predicción y tasas de error.

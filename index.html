@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>ENTREGA</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TRABAJO</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="tae.html">4.7.2</a>
+</li>
+<li>
+  <a href="about.html">8.4</a>
+</li>
+<li>
+  <a href="bod.html">9.7.2</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">ENTREGA</h1>
+
+</div>
+
+
+<p>Ledy Alexandra Berrio Jaramillo - 1037658889</p>
+<p>Susana Londoño Arango - 1037656848</p>
+<div id="a-continuacion-se-muestra-el-desarrollo-del-trabajo-numero-2-en-la-pestana-home-se-visualiza-el-nombre-del-autor-y-el-ensayo-sobre-como-dar-solucion-a-la-calidad-del-aire-en-medellin-con-inteligencia-artifical.-en-las-demas-pestanas-se-dan-solucion-a-los-ejercicios-propuestos-de-acuerdo-a-cada-seccion-del-texto-guia." class="section level4">
+<h4>A continuación se muestra el desarrollo del trabajo número 2, en la pestaña “Home” se visualiza el nombre del autor y el ensayo sobre como dar solución a la calidad del aire en Medellín con inteligencia artifical. En las demas pestañas se dan solución a los ejercicios propuestos de acuerdo a cada sección del texto guía.</h4>
+</div>
+<div id="introduccion" class="section level4">
+<h4>INTRODUCCIÓN</h4>
+<p>La calidad del aire es una cifra proporcionada por las autoridades de una zona normalmente urbana y que refleja los contaminantes presentes en el aire. El medio ambiente es en sí el espacio que nos rodea, y en el que vivimos día a día, el cual se ve afectado por cada una de nuestras acciones. Para hablar de la calidad del aire es necesario tener en cuenta que todo lo que nos rodea y aún aquello que no logramos ver y que se encuentra a kilómetros de distancia, mantiene una relación simbiótica con nosotros.</p>
+<p>Nuestra acción directa sobre el medio ambiente se reduce tristemente a la mala calidad del aire, los seres humanos entre más avanzamos en el desarrollo y la industrialización, más retrocedemos en la protección y conservación del medio ambiente, y esto está causando progresivamente la destrucción de nuestro planeta. A parte de entender como nuestras acciones cotidianas tienen un impacto negativo sobre la calidad del aire que nos rodea, se pretende buscar soluciones realistas a partir de toda la información disponible y poniendo en práctica el aprendizaje estadístico que se ha adquirido durante la carrera y en este curso</p>
+<p>Gracias al sistema de alerta temprana de Medellín y el valle de Aburrá (SIATA) podemos estar al tanto de la concentración de partículas en diferentes zonas de Medellín, esta refleja los contaminantes presentes en el aire medidos por diferentes estaciones repartidas por todo el valle de aburrá, estos contaminantes se denominan partículas en suspensión (PM, del inglés Particulate Matter). Las partículas en suspensión abarcan todas las partículas sólidas y líquidas que se encuentran en el aire, esta mezcla contiene entre otras cosas, polvo, polen, hollín, humo. Los componentes mencionados anteriormente son algunos de los que forman un peligro, pues contaminan el aire que respiran miles de ciudadanos y se denomina peligroso para valores mayores a PM2.5. Las estaciones medidoras muestran una situación crítica y un estado lamentable sobre la calidad del aire. Esto es una problemática que se ha venido dando durante muchos años, principalmente en esta época del año en la que ocurre una transición entre la temporada seca y la húmeda, en la cual se presenta alta nubosidad y no permite la radiación solar, si el aire no es calentado lo suficiente no asciende y no es arrastrado fuera del valle, por otro lado la ciudad está ubicada en una cuenca de profundidad máxima 1 kilómetro y 7 kilómetros de ancha, esto también es un factor influyente para la concentración de partículas “malas”, es decir, una mala calidad del aire. Pero realmente la época del año y la topografía no son las culpables de esta problemática, esto es en realidad el polo a tierra que tenemos para darnos cuenta del gran impacto ambiental atribuible a nuestras acciones cotidianas y la muestra de que el daño que le hacemos a la naturaleza también es un daño para la salud de cada uno de nosotros, y las medidas drásticas que se han tomado también nos afectan en nuestra cotidianidad. En la última década la circulación de autos aumento en por lo menos un 300%, se ha establecido un déficit de 700.000 árboles, la OMS (Organización Mundial de la Salud) recomienda que debiera haber un árbol por cada 3 habitantes y en el valle de Aburrá solo hay 0.39 árboles por cada tres habitantes, el área metropolitana informó que las fuentes fijas como empresas y la industria aportan un 20% de los contaminantes del aire y las fuentes móviles como los autos particulares aportan el 80%. Dicho lo anterior y teniendo en cuenta cuales son las principales causas de la mala calidad del aire y sus repercusiones, es evidente que el SIATA es una fuente confiable para medir la calidad del aire, y el culpable de este problema se le atribuye en su totalidad al ser humano. se propone plantear un modelo por cada zona en donde se ubique una estación medidora de SIATA donde se utilizará como variable respuesta los valores arrojados por cada estación y las variables influyentes a la calidad del aire pueden variar en las diferentes zonas o estaciones, pues los factores influyentes a la mala calidad del aire pueden ser zonas donde hay muchas fábricas o concentración vehicular y zonas influyentes a la buena calidad del aire como pueden ser las comunas o zonas rurales. Según la respuesta de cada modelo se pueden tomar medidas independientes de mejoramiento de la calidad del aire, es decir, no es viable poner pico y placa en una zona en la que no haya alto flujo vehicular, o multar empresas en zonas donde hay buena calidad y estas no son perjudiciales en la calidad del aire, por el contrario, hay zonas en las que estas medidas sí pueden contribuir al mejoramiento de la calidad del aire.</p>
+</div>
+<div id="cibergrafia" class="section level3">
+<h3>CIBERGRAFÍA</h3>
+<p><a href="https://siata.gov.co/siata_nuevo/" class="uri">https://siata.gov.co/siata_nuevo/</a> <a href="https://www.metropol.gov.co/ambientales/aire/red-aire" class="uri">https://www.metropol.gov.co/ambientales/aire/red-aire</a> <a href="https://www.eltiempo.com/colombia/medellin/medellin-y-el-valle-de-aburra-muestran-una-baja-calidad-del-aire-326250" class="uri">https://www.eltiempo.com/colombia/medellin/medellin-y-el-valle-de-aburra-muestran-una-baja-calidad-del-aire-326250</a> <a href="https://www.elcolombiano.com/antioquia/si-hay-control-a-empresas-que-contaminan-DK10383330" class="uri">https://www.elcolombiano.com/antioquia/si-hay-control-a-empresas-que-contaminan-DK10383330</a></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">TRABAJO</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="tae.html">4.7.2</a>
+</li>
+<li>
+  <a href="about.html">8.4</a>
+</li>
+<li>
+  <a href="bod.html">9.7.2</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="section" class="section level1 tabset tabset-fade tabset-pills">
+<h1></h1>
+<div id="punto-10" class="section level2">
+<h2>Punto 10</h2>
+<p>Esta pregunta debe responderse utilizando el conjunto de datos semanal, que es parte del paquete ISLR. Estos datos son similares en naturaleza a Datos de mercado del laboratorio de este capítulo, excepto que contiene 1.089 devoluciones semanales durante 21 años, desde principios de 1990 hasta finales de 2010.</p>
+<p><strong>(a)</strong> Produzca algunos resúmenes numéricos y gráficos de los datos en <strong><em>Weekly</em></strong>. ¿Parece haber algún patrón?</p>
+<pre class="r"><code>library(ISLR)
+data(&quot;Weekly&quot;)
+summary(Weekly)</code></pre>
+<pre><code>##       Year           Lag1               Lag2               Lag3         
+##  Min.   :1990   Min.   :-18.1950   Min.   :-18.1950   Min.   :-18.1950  
+##  1st Qu.:1995   1st Qu.: -1.1540   1st Qu.: -1.1540   1st Qu.: -1.1580  
+##  Median :2000   Median :  0.2410   Median :  0.2410   Median :  0.2410  
+##  Mean   :2000   Mean   :  0.1506   Mean   :  0.1511   Mean   :  0.1472  
+##  3rd Qu.:2005   3rd Qu.:  1.4050   3rd Qu.:  1.4090   3rd Qu.:  1.4090  
+##  Max.   :2010   Max.   : 12.0260   Max.   : 12.0260   Max.   : 12.0260  
+##       Lag4               Lag5              Volume       
+##  Min.   :-18.1950   Min.   :-18.1950   Min.   :0.08747  
+##  1st Qu.: -1.1580   1st Qu.: -1.1660   1st Qu.:0.33202  
+##  Median :  0.2380   Median :  0.2340   Median :1.00268  
+##  Mean   :  0.1458   Mean   :  0.1399   Mean   :1.57462  
+##  3rd Qu.:  1.4090   3rd Qu.:  1.4050   3rd Qu.:2.05373  
+##  Max.   : 12.0260   Max.   : 12.0260   Max.   :9.32821  
+##      Today          Direction 
+##  Min.   :-18.1950   Down:484  
+##  1st Qu.: -1.1540   Up  :605  
+##  Median :  0.2410             
+##  Mean   :  0.1499             
+##  3rd Qu.:  1.4050             
+##  Max.   : 12.0260</code></pre>
+<p>Obtenemos la matriz de correlación sin incluir la variable Direction:</p>
+<pre class="r"><code>cor(Weekly[,-9])</code></pre>
+<pre><code>##               Year         Lag1        Lag2        Lag3         Lag4
+## Year    1.00000000 -0.032289274 -0.03339001 -0.03000649 -0.031127923
+## Lag1   -0.03228927  1.000000000 -0.07485305  0.05863568 -0.071273876
+## Lag2   -0.03339001 -0.074853051  1.00000000 -0.07572091  0.058381535
+## Lag3   -0.03000649  0.058635682 -0.07572091  1.00000000 -0.075395865
+## Lag4   -0.03112792 -0.071273876  0.05838153 -0.07539587  1.000000000
+## Lag5   -0.03051910 -0.008183096 -0.07249948  0.06065717 -0.075675027
+## Volume  0.84194162 -0.064951313 -0.08551314 -0.06928771 -0.061074617
+## Today  -0.03245989 -0.075031842  0.05916672 -0.07124364 -0.007825873
+##                Lag5      Volume        Today
+## Year   -0.030519101  0.84194162 -0.032459894
+## Lag1   -0.008183096 -0.06495131 -0.075031842
+## Lag2   -0.072499482 -0.08551314  0.059166717
+## Lag3    0.060657175 -0.06928771 -0.071243639
+## Lag4   -0.075675027 -0.06107462 -0.007825873
+## Lag5    1.000000000 -0.05851741  0.011012698
+## Volume -0.058517414  1.00000000 -0.033077783
+## Today   0.011012698 -0.03307778  1.000000000</code></pre>
+<p>De acuerdo a la matriz de correlación descrita anteriormente, la correlación positiva más alta de 0.842, se da entre las variables Año y Volumen por lo tanto se decide hacer un gráfico para estas dos variables.</p>
+<pre class="r"><code>plot(Weekly$Year,Weekly$Volume, xlab = &quot;Year&quot;, ylab = &quot;Volume&quot;,main = &quot;Gráfico Año vs Volumen&quot;,type = &quot;p&quot;)</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>En el gráfico se puede evidenciar que la variable Volume crece a media que el tiempo aumenta, por lo tanto el promedio diario de acciones negociadas en mlies de millones ha estado en crecimiento en los años 1990 y 2010.</p>
+<pre class="r"><code>library(plotly)
+plot_ly(Weekly,y=~Volume,x=~Direction,type=&quot;box&quot;)</code></pre>
+<div id="htmlwidget-dd5a859941a1c05d3263" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dd5a859941a1c05d3263">{"x":{"visdat":{"737c15f2c3e":["function () ","plotlyVisDat"]},"cur_data":"737c15f2c3e","attrs":{"737c15f2c3e":{"y":{},"x":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Direction","type":"category","categoryorder":"array","categoryarray":["Down","Up"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Volume"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"fillcolor":"rgba(31,119,180,0.5)","y":[0.154976,0.148574,0.1598375,0.16163,0.153728,0.154444,0.151722,0.13231,0.143972,0.133635,0.149024,0.13579,0.139898,0.164342,0.175648,0.16347,0.172625,0.168446,0.155292,0.143392,0.140554,0.125075,0.171604,0.166956,0.171718,0.209816,0.192706,0.148252,0.189858,0.127884,0.1157425,0.123924,0.149082,0.171856,0.16497,0.156454,0.18028,0.143978,0.154292,0.148006,0.16355,0.1265325,0.151578,0.197994,0.155874,0.1767,0.087465,0.13067,0.142532,0.182248,0.179894,0.194998,0.259656,0.23814,0.1937775,0.202784,0.223946,0.196752,0.17954,0.176305,0.186558,0.174328,0.207228,0.164108,0.176646,0.158566,0.171858,0.148632,0.20432,0.175766,0.153814,0.160632,0.161534,0.133815,0.160228,0.186366,0.1483,0.160944,0.156472,0.16932,0.201852,0.148544,0.160015,0.147308,0.189554,0.157968,0.163018,0.16507,0.195832,0.176008,0.18706,0.176786,0.190346,0.21239,0.1585575,0.185822,0.192506,0.214454,0.17468,0.23113,0.264644,0.280922,0.2152,0.210122,0.230916,0.213328,0.2498925,0.209364,0.195818,0.181638,0.195688,0.176834,0.175334,0.213072,0.2093025,0.212092,0.193976,0.182548,0.181268,0.173652,0.1948125,0.200526,0.18996,0.20906,0.177964,0.2016825,0.19735,0.190004,0.173812,0.204988,0.17515,0.16911,0.179974,0.174234,0.171704,0.1856975,0.223992,0.190016,0.181358,0.211674,0.187746,0.222984,0.200436,0.206172,0.21669,0.211304,0.1869475,0.241844,0.217448,0.259576,0.2011225,0.1768675,0.261024,0.258536,0.2598,0.27681,0.306278,0.241944,0.314235,0.28888,0.253458,0.26681,0.247372,0.24368,0.253642,0.2935325,0.273676,0.28404,0.26652,0.24931,0.251314,0.280516,0.240588,0.259315,0.243188,0.250472,0.247864,0.262462,0.251525,0.255474,0.248836,0.253618,0.23932,0.2499,0.275606,0.247012,0.229816,0.260155,0.28182,0.270804,0.260758,0.259966,0.29132,0.306138,0.279292,0.312648,0.280842,0.297682,0.215345,0.275594,0.285142,0.302354,0.2572375,0.201236,0.33753,0.303712,0.302198,0.317464,0.334214,0.308022,0.299734,0.2993575,0.307582,0.313354,0.327542,0.2729,0.3467025,0.31315,0.272776,0.327154,0.2924025,0.279988,0.270154,0.296502,0.24521,0.2599325,0.245022,0.286354,0.25942,0.254938,0.231975,0.26785,0.26011,0.242674,0.271236,0.256258,0.280612,0.288594,0.282846,0.2695925,0.30564,0.312052,0.297412,0.302254,0.285574,0.292404,0.328144,0.30297,0.277076,0.314746,0.3073375,0.284284,0.307928,0.352498,0.302876,0.2410875,0.29977,0.325466,0.33348,0.325622,0.377712,0.315984,0.328798,0.33619,0.325296,0.341292,0.337006,0.331774,0.343714,0.31548,0.300275,0.365672,0.340034,0.353826,0.3472,0.347252,0.33462,0.33828,0.32465,0.347558,0.369246,0.327292,0.3406975,0.380652,0.399966,0.350026,0.333268,0.292208,0.332022,0.288234,0.293328,0.3354675,0.373602,0.36704,0.350204,0.342294,0.349502,0.372876,0.404682,0.364042,0.342602,0.377368,0.31808,0.399926,0.393556,0.441864,0.409528,0.2698725,0.445705,0.367358,0.42765,0.42606,0.436268,0.451808,0.424422,0.4389325,0.440622,0.452706,0.468022,0.39635,0.385466,0.392195,0.449346,0.423144,0.441386,0.403802,0.422946,0.424724,0.395856,0.35548,0.399504,0.385662,0.403342,0.39766,0.31287,0.421258,0.499672,0.393504,0.38148,0.342144,0.33594,0.328164,0.293578,0.3517925,0.38971,0.438906,0.42505,0.420138,0.403054,0.434792,0.41084,0.442726,0.45998,0.452998,0.467608,0.3488525,0.482298,0.454672,0.529728,0.254215,0.413755,0.54566,0.514784,0.565794,0.517688,0.522244,0.520764,0.4910325,0.507352,0.511238,0.490266,0.526882,0.4807375,0.51849,0.44445,0.477138,0.460428,0.493676,0.528696,0.479808,0.436138,0.4808225,0.474262,0.535014,0.527816,0.52219,0.501845,0.537058,0.590136,0.54971,0.528302,0.537272,0.527028,0.508078,0.446092,0.53416,0.521084,0.578566,0.536702,0.552278,0.534644,0.518486,0.606116,0.804848,0.552976,0.554972,0.57085,0.4449075,0.597618,0.568558,0.650288,0.366655,0.4441675,0.662476,0.63892,0.6383225,0.661366,0.677098,0.582066,0.5970025,0.594544,0.632376,0.620924,0.635636,0.620516,0.635572,0.61546,0.647018,0.65093,0.656184,0.5784,0.593128,0.53368,0.5922825,0.569796,0.595436,0.662152,0.6187,0.63334,0.59731,0.658982,0.680056,0.66025,0.77042,0.674002,0.651188,0.7352,0.9379,0.804625,0.74514,0.749436,0.81066,0.92658,0.83908,0.766888,0.707262,0.7545,0.648912,0.673098,0.5952075,0.74266,0.70612,0.76484,0.592445,0.6078675,0.88794,0.829,0.837225,0.85598,0.84956,0.73402,0.707815,0.76134,0.76212,0.81816,0.79542,0.74456,0.77605,0.77326,0.93316,0.95852,0.8991,0.86966,0.79192,0.73176,0.782712,0.706475,0.68538,0.75752,0.689752,0.809396,0.761425,0.74206,0.716982,0.70701,0.74733,0.75002,0.66065,0.71379,0.70362,0.772225,0.75612,0.79422,0.88716,0.87786,0.81212,0.92498,0.9722,0.93378,0.88746,0.9229,0.71163,0.92174,1.01378,1.09188,0.861675,0.574918,1.06876,1.03394,1.11375,1.10642,1.041,1.02016,1.02306,1.063475,1.17076,1.16158,1.23806,1.03844,1.06856,1.109412,1.06254,1.052925,1.007,0.94014,0.90048,0.85844,0.91966,0.9818,0.85672,0.98038,0.96662,1.11944,0.83755,0.96156,0.95132,1.04438,0.98748,0.93546,0.87066,0.78882,0.83438,0.945025,1.04824,1.07646,1.1334,1.12858,1.15212,1.21678,1.18222,1.18502,0.95892,1.06832,0.8652425,0.951626,1.17778,1.22066,1.29468,0.9875,1.642975,1.2581,1.3519,1.21232,1.13308,1.08272,1.1351,1.229475,1.21182,1.07064,1.358072,1.35945,1.25538,1.340278,1.201175,1.35358,1.17384,1.20206,1.01012,1.16434,1.09978,1.10655,0.9662,1.18973,1.276524,1.314152,0.9355025,1.24186,1.22172,1.1391,1.10736,1.00268,0.9795,1.01586,0.9741,1.3367,1.9500816,1.5956,1.40536,1.311036,1.24904,1.27362,1.23906,1.32926,1.3194,1.02165,1.31216,1.40456,1.37078,1.45676,0.7561175,1.256625,1.306,1.37384,1.422175,1.58852,1.53904,1.22024,1.35535,1.38382,1.52286,1.31426,1.26238,1.1523,1.16826,1.31326,1.27658,1.36702,1.40864,1.26084,1.29086,1.08098,1.16055,1.40676,1.437764,1.33054,1.821238,1.368925,1.607616,2.27508,2.337088,1.77288,1.47432,1.32768,1.28118,1.13444,1.311925,1.12524,1.45356,1.572028,1.73642,1.868864,1.588958,1.526214,1.48526,1.51748,1.37452,1.63584,1.27784,1.43612,1.29572,1.427646,0.7624775,1.126575,1.49888,1.42012,1.5538375,1.515846,1.37372,1.33992,1.229675,1.34968,1.29318,1.53218,1.610346,1.2812,1.42552,1.288,1.40235,1.4802,1.507782,1.4667,1.44258,1.39766,1.6164,1.65234,1.38542,1.50852,1.38016,1.33565,1.45824,1.53122,1.40262,1.4456,1.32746,1.037294,1.271,1.06242,1.5163,1.37376,1.382022,1.4278,1.47262,1.25092,1.32064,1.46848,1.53844,1.4184,1.2989,1.33106,1.055355,1.38578,1.35852,1.54952,0.8177825,1.063025,1.67334,1.60736,1.677675,1.71052,1.55102,1.44004,1.455325,1.4418,1.39432,1.53612,1.4836,1.44582,1.4977,1.3675,1.42596,1.53286,1.63158,1.57312,1.57936,1.36026,1.35254,1.20935,1.209875,1.2982,1.43164,1.35682,1.299825,1.32706,1.4927,1.48136,1.38038,1.26444,1.24116,1.03512,1.033194,1.2733,1.25936,1.28884,1.47864,1.42164,1.38894,1.58782,1.58736,1.6659,1.44768,1.49704,1.118795,1.60928,1.49638,1.76104,1.31335,0.88952,1.60354,1.4774,1.60775,1.59666,1.625228,1.46569,1.487736,1.572115,1.665028,1.554146,1.70609,1.975625,2.0899,1.861984,2.119976,2.178972,2.090184,2.031568,1.953106,1.88361,1.627978,1.7730225,1.720456,1.87667,1.94144,1.796724,1.885635,1.871184,1.91671,1.877768,1.934294,1.904968,1.72188,1.66859,1.95029,1.9869325,2.247794,2.268336,2.075822,2.38076,2.30528,2.408668,2.350556,2.48811,2.063738,2.226412,1.7797775,2.280068,2.121,2.235374,1.888996,1.4472175,2.48745,2.321112,2.42575,2.59245,2.485592,2.337512,2.197072,2.10098,2.260408,2.250934,2.27408,2.094204,2.170618,2.285182,1.99031,2.34859,2.435666,2.39239,2.335326,2.648372,2.512808,2.3810125,2.682616,2.737928,2.255366,2.367602,1.8192125,2.285754,2.475962,2.560298,2.57183,2.293082,2.299788,1.83191,1.952878,2.2257725,2.688896,2.409864,2.560806,2.639458,2.365916,2.526124,2.712532,2.692108,2.657402,2.761356,2.0537275,2.989828,2.686182,2.707922,2.328566,1.5411125,3.1176733,2.822146,2.7224275,2.783864,2.779552,2.68699,2.527498,2.36889,3.599964,3.123586,3.224692,2.901376,2.837362,2.6927975,2.65406,3.001118,2.978394,3.090694,2.805676,2.918038,3.01838,2.9536375,3.0349,2.975814,3.217232,3.25121,2.3175625,3.06665,3.26354,4.151786,4.510208,5.342306,4.376236,3.05368,2.724582,2.8522175,2.851118,3.358248,3.0708,3.011736,2.94348,3.47522,3.716066,3.763506,4.415684,4.095036,3.6709375,4.096428,3.415362,3.702056,3.7459,2.01605,3.3722575,4.788802,5.006464,5.10098,4.539542,4.035458,3.744452,3.6883475,4.046484,4.408266,4.802348,4.5919225,4.08494,4.17555,3.663378,3.868576,3.939778,4.066604,3.751244,3.809532,3.905724,3.8140425,4.314358,4.526856,4.443808,5.03132,4.850575,5.812632,6.511124,5.663448,5.07189,4.18824,4.534404,4.063548,3.530036,5.01753,6.883584,9.328214,5.319894,6.205326,8.4033579,7.306794,6.035936,6.460596,5.296816,5.812934,7.34904,5.841565,6.09395,5.932454,5.855972,3.087105,3.79311,5.043904,5.948758,6.1297625,5.602004,6.217632,6.0088219,6.4015151,7.5507758,7.592844,7.4594358,7.963276,6.9528199,6.2868699,6.2261876,6.8393019,7.0831699,6.043558,7.952024,6.337752,6.339728,5.7888125,5.66247,4.866352,5.114026,5.119916,4.1724325,4.673382,4.785464,5.0033,5.294932,6.4279459,5.373764,4.66465,5.744582,5.28626,5.1379225,6.0469679,5.081302,5.21008,4.46671,4.74037,5.118466,6.081714,5.290226,4.218872,4.122504,3.232,4.535468,4.150876,5.672874,3.0132625,2.3904275,4.22307,4.363246,5.6545824,5.079534,5.082238,4.403416,4.040725,4.194034,4.00233,4.805318,4.5888,4.751278,4.2379475,4.461554,5.974902,5.800096,6.310456,7.683886,5.79175,6.5280519,5.528868,5.3685975,5.369514,4.637208,4.699712,5.100892,4.4193725,4.487664,4.580286,4.27132,3.96346,3.906558,3.777406,3.951328,3.71847,3.1952375,3.972432,3.884522,4.03741,3.905616,4.44916,4.576282,4.116414,4.798758,4.298262,4.177436,3.20516,4.242568,4.835082,4.454044,2.707105],"x":["Down","Down","Up","Up","Up","Down","Up","Up","Up","Down","Down","Up","Up","Up","Down","Up","Down","Up","Down","Up","Up","Up","Down","Down","Down","Down","Down","Down","Up","Up","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Down","Up","Up","Down","Up","Down","Down","Down","Up","Up","Up","Up","Up","Down","Up","Up","Down","Down","Up","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Up","Down","Down","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Down","Up","Down","Down","Up","Up","Down","Up","Up","Down","Down","Down","Up","Up","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Up","Down","Up","Up","Down","Down","Up","Up","Down","Up","Up","Down","Up","Up","Down","Down","Down","Down","Up","Up","Up","Down","Up","Down","Up","Down","Down","Up","Up","Up","Down","Down","Down","Up","Up","Up","Down","Up","Up","Up","Up","Up","Up","Down","Down","Down","Up","Down","Up","Up","Down","Down","Up","Up","Up","Up","Down","Down","Up","Up","Down","Up","Up","Down","Up","Up","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Up","Up","Up","Up","Up","Down","Down","Up","Down","Up","Down","Up","Down","Up","Down","Up","Up","Down","Up","Up","Down","Up","Up","Down","Up","Down","Up","Down","Down","Down","Up","Up","Down","Down","Up","Down","Up","Up","Down","Down","Up","Up","Up","Down","Down","Down","Up","Up","Up","Down","Up","Down","Up","Up","Up","Down","Down","Up","Down","Up","Down","Up","Down","Up","Down","Up","Down","Down","Up","Down","Up","Up","Down","Up","Up","Down","Up","Up","Up","Up","Up","Down","Up","Up","Up","Down","Up","Up","Down","Up","Up","Up","Down","Up","Up","Down","Up","Up","Down","Up","Up","Down","Up","Down","Down","Up","Up","Up","Up","Up","Down","Up","Down","Up","Up","Down","Up","Up","Up","Down","Up","Up","Down","Down","Up","Up","Down","Up","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Up","Down","Up","Up","Down","Up","Up","Up","Down","Up","Down","Up","Up","Down","Down","Down","Down","Up","Down","Up","Up","Down","Up","Up","Up","Down","Up","Down","Up","Down","Up","Up","Up","Up","Up","Down","Down","Up","Up","Down","Up","Up","Down","Up","Up","Up","Down","Down","Up","Down","Down","Down","Down","Down","Up","Down","Up","Up","Up","Up","Up","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Down","Up","Down","Up","Down","Up","Down","Up","Up","Down","Down","Down","Up","Up","Up","Down","Up","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Up","Up","Up","Up","Up","Down","Up","Down","Up","Down","Up","Down","Up","Up","Down","Up","Down","Up","Up","Up","Up","Up","Down","Down","Down","Down","Up","Down","Down","Up","Up","Up","Down","Down","Up","Up","Up","Up","Down","Up","Up","Down","Down","Up","Up","Up","Up","Down","Down","Up","Down","Down","Up","Down","Up","Up","Up","Down","Up","Up","Down","Up","Down","Up","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Down","Down","Down","Up","Up","Up","Up","Down","Down","Down","Up","Up","Down","Up","Up","Up","Up","Up","Down","Up","Down","Up","Up","Up","Down","Up","Down","Down","Up","Down","Down","Down","Up","Down","Up","Up","Down","Up","Down","Up","Up","Down","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Down","Down","Up","Up","Up","Up","Up","Down","Down","Down","Down","Down","Down","Up","Down","Up","Down","Up","Down","Down","Up","Down","Down","Up","Down","Up","Up","Up","Down","Down","Down","Down","Down","Down","Down","Down","Up","Down","Up","Up","Up","Up","Down","Up","Down","Down","Up","Down","Up","Down","Down","Up","Down","Down","Up","Down","Down","Up","Down","Down","Down","Up","Up","Up","Down","Up","Down","Up","Up","Up","Down","Up","Down","Up","Up","Up","Down","Down","Up","Down","Down","Up","Down","Up","Up","Up","Down","Down","Down","Down","Up","Down","Down","Down","Up","Down","Down","Down","Down","Down","Up","Down","Down","Down","Up","Up","Up","Up","Up","Down","Down","Down","Down","Down","Down","Up","Up","Up","Up","Down","Up","Up","Up","Down","Down","Up","Down","Up","Up","Down","Down","Down","Down","Up","Up","Down","Down","Up","Up","Down","Up","Down","Up","Up","Up","Up","Up","Down","Up","Up","Up","Up","Down","Up","Up","Down","Up","Down","Down","Up","Up","Up","Up","Down","Up","Down","Up","Up","Up","Down","Up","Up","Down","Down","Up","Up","Up","Up","Up","Up","Up","Up","Up","Down","Up","Up","Down","Up","Up","Down","Down","Down","Up","Down","Down","Up","Down","Down","Down","Down","Up","Up","Up","Down","Down","Down","Down","Down","Down","Up","Down","Up","Up","Up","Up","Up","Up","Down","Up","Down","Down","Down","Up","Up","Up","Down","Up","Up","Down","Up","Up","Up","Down","Down","Down","Up","Up","Up","Down","Up","Up","Down","Down","Down","Up","Up","Down","Up","Up","Up","Down","Up","Up","Down","Up","Up","Down","Up","Up","Up","Up","Up","Down","Up","Down","Down","Up","Up","Down","Down","Up","Down","Down","Down","Up","Up","Up","Up","Up","Down","Down","Up","Up","Down","Up","Up","Down","Up","Down","Up","Up","Up","Down","Down","Up","Down","Down","Up","Down","Up","Down","Up","Down","Down","Up","Up","Down","Down","Down","Up","Down","Down","Up","Up","Up","Down","Up","Down","Up","Down","Up","Down","Up","Up","Up","Up","Up","Down","Up","Up","Down","Down","Up","Up","Down","Up","Down","Up","Down","Down","Up","Down","Up","Down","Down","Up","Down","Up","Down","Up","Up","Up","Up","Up","Up","Up","Down","Up","Down","Up","Down","Up","Up","Up","Down","Down","Down","Up","Down","Up","Down","Down","Up","Up","Up","Up","Up","Down","Up","Down","Down","Up","Down","Up","Up","Down","Up","Down","Down","Down","Down","Up","Up","Down","Up","Up","Down","Down","Down","Up","Down","Up","Down","Up","Up","Up","Down","Up","Down","Up","Down","Down","Down","Down","Down","Down","Up","Down","Up","Up","Up","Down","Down","Down","Up","Up","Down","Down","Down","Up","Down","Up","Down","Down","Down","Up","Down","Up","Up","Down","Up","Down","Down","Down","Down","Up","Down","Down","Down","Down","Up","Up","Up","Up","Up","Up","Down","Up","Up","Down","Up","Up","Up","Up","Down","Down","Down","Down","Up","Up","Up","Up","Down","Up","Up","Down","Up","Up","Down","Down","Up","Up","Down","Down","Up","Up","Down","Up","Up","Up","Down","Up","Down","Up","Down","Down","Down","Down","Up","Up","Down","Up","Up","Up","Up","Up","Up","Down","Up","Down","Down","Up","Down","Up","Down","Up","Up","Down","Down","Up","Down","Up","Down","Up","Down","Down","Down","Up","Up","Up","Up","Down","Up","Up","Up","Up","Up","Down","Up","Down","Up","Up","Up","Up","Up"],"type":"box","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>En el boxplot de Volume vs Direction se evidencia poca variabilidad entre los dos niveles de la variable Direction, Down y Up debido a la variable Volume, además se puede ver alta dispersión entre los puntos y parece no existir grandes diferencias. El gráfico es interactivo por lo tanto se pueden conocer los valores importantes dentro del gráfico solo con pasar el cursor sobre el.</p>
+<p><strong>(b)</strong> Utilice el conjunto de datos completo para realizar una regresión logística con <strong><em>Direction</em></strong> como respuesta y las cinco variables de Lag más Volume como predictores. Use la función de resumen para imprimir los resultados. ¿Alguno de los predictores parece ser estadísticamente significativo? Si es así,¿cuáles?</p>
+<p>El modelo de regresión logístico ajustado es el siguiente:</p>
+<pre class="r"><code>mod1 &lt;- glm( Direction ~ Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data = Weekly,family = &quot;binomial&quot;)
+summary(mod1)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + 
+##     Volume, family = &quot;binomial&quot;, data = Weekly)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.6949  -1.2565   0.9913   1.0849   1.4579  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  0.26686    0.08593   3.106   0.0019 **
+## Lag1        -0.04127    0.02641  -1.563   0.1181   
+## Lag2         0.05844    0.02686   2.175   0.0296 * 
+## Lag3        -0.01606    0.02666  -0.602   0.5469   
+## Lag4        -0.02779    0.02646  -1.050   0.2937   
+## Lag5        -0.01447    0.02638  -0.549   0.5833   
+## Volume      -0.02274    0.03690  -0.616   0.5377   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1496.2  on 1088  degrees of freedom
+## Residual deviance: 1486.4  on 1082  degrees of freedom
+## AIC: 1500.4
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Con el summary se observa que la variable Lag2 con un <strong>P-valor</strong> de 0.0296 es estadisiticamente significativa si se toma un nivel de significancia de referencia de 0.05.</p>
+<p><strong>(c)</strong> Calcule la matriz de confusión y la fracción general de la predicciones correctas. Explica lo que dice la matriz de confusión sobre los tipos de errores cometidos por la regresión logística.</p>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>prediction &lt;- mod1$fitted.values
+pred&lt;- rep(&quot;Down&quot;,length(prediction))
+pred[prediction &gt; 0.5]&lt;- &quot;Up&quot;
+table(pred,Weekly$Direction)</code></pre>
+<pre><code>##       
+## pred   Down  Up
+##   Down   54  48
+##   Up    430 557</code></pre>
+<pre class="r"><code>((557+54)/(54+48+430+557))*100</code></pre>
+<pre><code>## [1] 56.10652</code></pre>
+<p>Los elementos de una de las diagonales de la mtriz de confusión en los que el modelo ajustado predijo correctamente que el mercado tendría un rendimiento positivo en 557 días y un rendimiento negativo en 54 días, en total 611 predicciones correctas, el modejo predijo correctamente el 56.11% de las veces. La tasa de error es de 100-56.11 = 43.89%.</p>
+<p><strong>(d)</strong> Ahora ajuste el modelo de regresión logística usando un período de datos de entrenamiento desde 1990 hasta 2008, con <strong><em>Lag2</em></strong> como el único predictor. Calcule la matriz de confusión y la fracción general de predicciones correctas para los datos retenidos (es decir, los datos de 2009 y 2010).</p>
+<p>Modelo ajustado usando <strong><em>Lag2</em></strong> como único predictor:</p>
+<pre class="r"><code>train &lt;- subset.data.frame(x = Weekly,subset = Year &lt; 2009)
+test2009_2010 &lt;- subset.data.frame(Weekly,subset = Year &gt;=2009)
+mod2 &lt;- glm(Direction ~ Lag2 ,data = train,family = binomial)
+summary(mod2)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Direction ~ Lag2, family = binomial, data = train)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.536  -1.264   1.021   1.091   1.368  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  0.20326    0.06428   3.162  0.00157 **
+## Lag2         0.05810    0.02870   2.024  0.04298 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1354.7  on 984  degrees of freedom
+## Residual deviance: 1350.5  on 983  degrees of freedom
+## AIC: 1354.5
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>prediction2 &lt;- predict(object = mod2,newdata = test2009_2010,type = &quot;response&quot;)
+pred2&lt;- rep(&quot;Dow&quot;,length(prediction2))
+pred2[prediction2 &gt; 0.5]&lt;- &quot;Up&quot;
+table(pred2,test2009_2010$Direction)</code></pre>
+<pre><code>##      
+## pred2 Down Up
+##   Dow    9  5
+##   Up    34 56</code></pre>
+<pre class="r"><code>((9+56)/(9+5+34+56))*100</code></pre>
+<pre><code>## [1] 62.5</code></pre>
+<p>Usando la matriz de confusión y los datos de prueba, se puede observar que el porcentaje de predicciones correctas es 62.5%. La tasa de error para este modelo ajustado es 100-62.5 = 37.5%. Además se puede percibir que cuando el mercado sube, el modelo predice correctamente 91.8% de las veces y cuando baja predice correctamente un 79.6% de las veces.</p>
+<p><strong>(e)</strong> Repita (d) usando <strong>LDA</strong></p>
+<p>Ajustamos el modelo usando <strong><em>LDA</em></strong>:</p>
+<pre class="r"><code>library(MASS)
+modlda &lt;- lda(Direction~Lag2,data = train)
+modlda</code></pre>
+<pre><code>## Call:
+## lda(Direction ~ Lag2, data = train)
+## 
+## Prior probabilities of groups:
+##      Down        Up 
+## 0.4477157 0.5522843 
+## 
+## Group means:
+##             Lag2
+## Down -0.03568254
+## Up    0.26036581
+## 
+## Coefficients of linear discriminants:
+##            LD1
+## Lag2 0.4414162</code></pre>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>prediction_LDA &lt;- predict(object = modlda,newdata = test2009_2010)
+table(prediction_LDA$class,test2009_2010$Direction)</code></pre>
+<pre><code>##       
+##        Down Up
+##   Down    9  5
+##   Up     34 56</code></pre>
+<pre class="r"><code>((9+56)/(9+5+34+56))*100</code></pre>
+<pre><code>## [1] 62.5</code></pre>
+<p>La matriz de confusión ajustando el modelo con LDA es la misma que cuando se ajusta con regresión lógistica,podemos concluir que el porcentaje predicciones correctas es de 62.5% de las veces. La tasa de error es de 37.5%.</p>
+<p><strong>(f)</strong> Repita (d) usando <strong>QDA</strong></p>
+<p>Ajustamos el modelo usando <strong>QDA</strong>:</p>
+<pre class="r"><code>mod_QDA &lt;-  qda(Direction~Lag2,data = train)
+mod_QDA</code></pre>
+<pre><code>## Call:
+## qda(Direction ~ Lag2, data = train)
+## 
+## Prior probabilities of groups:
+##      Down        Up 
+## 0.4477157 0.5522843 
+## 
+## Group means:
+##             Lag2
+## Down -0.03568254
+## Up    0.26036581</code></pre>
+<pre class="r"><code>prediction_QDA &lt;- predict(mod_QDA,newdata = test2009_2010)
+table(prediction_QDA$class,test2009_2010$Direction)</code></pre>
+<pre><code>##       
+##        Down Up
+##   Down    0  0
+##   Up     43 61</code></pre>
+<pre class="r"><code>((61)/(61+43))*100</code></pre>
+<pre><code>## [1] 58.65385</code></pre>
+<p>Con la tabla de confusión y los datos de prueba, se concluye que el porcentaje de predicciones acertadas es de 58.65%. La tasa de error con los datos de prueba es de 41.35%. Además cuando el mercado sube, el modelo predice correctamente 100% de la veces, se debe tener en cuenta que este modelo toma como referencia el valor Up de Direction.</p>
+<p><strong>(g)</strong> Repita (d) usando Knn con k=1.</p>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>library(class)
+train.x &lt;- as.matrix(train$Lag2)
+test.x &lt;- as.matrix(test2009_2010$Lag2)
+train.Direction &lt;- train$Direction
+set.seed(23)
+prediction_knn &lt;- knn(train = train.x,test = test.x,cl = train.Direction,k = 1)
+table(prediction_knn,test2009_2010$Direction)</code></pre>
+<pre><code>##               
+## prediction_knn Down Up
+##           Down   21 29
+##           Up     22 32</code></pre>
+<pre class="r"><code>((21+32)/(21+29+22+32))*100</code></pre>
+<pre><code>## [1] 50.96154</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 50.962% de las veces.</p>
+<p><strong>(h)</strong> ¿Cuál de estos métodos parece proporcionar los mejores resultados en estos datos?</p>
+<p>Los modelos ajustados con regresión lógistica y LDA tienen tasas de error mas pequeña, además no hay muchas diferencias entre esos dos modelos por lo tanto usando cualquiera de estso dos métodos se tendrían mejores resultados que con los demás.</p>
+<p><strong>(i)</strong> Experimente con diferentes combinaciones de predictores, incluyendo posibles transformaciones e interacciones, para cada una de las métodos. Informe las variables, el método y la matriz de confusión asociada. Matriz que parece proporcionar los mejores resultados en el contenido fuera de datos. Tenga en cuenta que también debe experimentar con valores para K en el clasificador KNN.</p>
+<p>Como se determinó en un literal anterior, la variable más significativa es Lag2 por lo tanto esta se mantiene fija en los proximos nuevos modelos ajustados. Adicionamos la variable Lag1 puesto que tiene un valor p más pequeño y podría estar dentro de los límites de significancia si se toma como valor de referencia de 0.1.</p>
+<p>Ajustamos el modelo con las variables Lag1 y Las2, usando el método de regresión lógistica:</p>
+<pre class="r"><code>train1 &lt;- (Weekly$Year &lt; 2009)
+fit.glm3 &lt;- glm( Direction ~ Lag1+Lag2,data = Weekly,family = &quot;binomial&quot;, subset = train1)
+probs3 &lt;- predict(fit.glm3, test2009_2010, type = &quot;response&quot;)
+pred.glm3 &lt;- rep(&quot;Down&quot;, length(probs3))
+pred.glm3[probs3 &gt; 0.5] = &quot;Up&quot;
+table(pred.glm3, test2009_2010$Direction)</code></pre>
+<pre><code>##          
+## pred.glm3 Down Up
+##      Down    7  8
+##      Up     36 53</code></pre>
+<pre class="r"><code>((7+53)/(7+8+36+53))*100</code></pre>
+<pre><code>## [1] 57.69231</code></pre>
+<p>La matriz de confusión para este caso concluye que el modelo ajustado predice correctamente el 57.69% de las veces. La tasa de error es de 42.31%.</p>
+<p>Como en los literales anteriores los resultados usando regresión lógistica y LDA fueron muy similares, no se tendrá en cuenta ajusatrlo por el método LDA.</p>
+<p>Ajustamos el modelo con las variables Lag1 y Lag2 usando el método de QDA:</p>
+<pre class="r"><code>fit.qda2 &lt;- qda(Direction ~ Lag1 + Lag2, data = Weekly, subset = train1)
+pred.qda2 &lt;- predict(fit.qda2, test2009_2010)
+table(pred.qda2$class, test2009_2010$Direction)</code></pre>
+<pre><code>##       
+##        Down Up
+##   Down    7 10
+##   Up     36 51</code></pre>
+<pre class="r"><code>mean(pred.qda2$class == test2009_2010$Direction)*100</code></pre>
+<pre><code>## [1] 55.76923</code></pre>
+<p>La matriz de confusión para este caso concluye que el modelo ajustado predice correctamente el 55.77% de las veces. La tasa de error es de 42.23%.</p>
+<p>Ajustamos el modelo con las variables Lag1 y Lag2 usando el método de KNN:</p>
+<p><strong>K=10</strong></p>
+<pre class="r"><code>pred.knn10 &lt;- knn(train.x, test.x, train.Direction, k = 10)
+table(pred.knn10, test2009_2010$Direction)</code></pre>
+<pre><code>##           
+## pred.knn10 Down Up
+##       Down   18 20
+##       Up     25 41</code></pre>
+<pre class="r"><code>mean(pred.knn10 == test2009_2010$Direction)*100</code></pre>
+<pre><code>## [1] 56.73077</code></pre>
+<p><strong>K=50</strong></p>
+<pre class="r"><code>pred.knn50 &lt;- knn(train.x, test.x, train.Direction, k = 50)
+table(pred.knn50, test2009_2010$Direction)</code></pre>
+<pre><code>##           
+## pred.knn50 Down Up
+##       Down   20 22
+##       Up     23 39</code></pre>
+<pre class="r"><code>mean(pred.knn50 == test2009_2010$Direction)*100</code></pre>
+<pre><code>## [1] 56.73077</code></pre>
+<p><strong>K=100</strong></p>
+<pre class="r"><code>pred.knn100 &lt;- knn(train.x, test.x, train.Direction, k = 100)
+table(pred.knn100, test2009_2010$Direction)</code></pre>
+<pre><code>##            
+## pred.knn100 Down Up
+##        Down   10 13
+##        Up     33 48</code></pre>
+<pre class="r"><code>mean(pred.knn100 == test2009_2010$Direction)*100</code></pre>
+<pre><code>## [1] 55.76923</code></pre>
+<p>Para el método de KNN vemos que el porcentaje de predicción no varía mucho respecto al k elegido. De lo anterior podemos concluir que el método de regresión lósgistica y LDA tienen mejores resultados con un porcentaje de predicción más alto y tasa de error más baja.</p>
+</div>
+<div id="punto-11" class="section level2">
+<h2>Punto 11</h2>
+<p>En este problema, desarrollará un modelo para predecir si un determinado el automóvil obtiene un consumo de combustible alto o bajo en función de <strong><em>Auto</em></strong> en el conjunto de datos.</p>
+<p><strong>(a)</strong> Cree una variable binaria, <strong><em>mpg01</em></strong>, que contenga un 1 si mpg contiene un valor por encima de su mediana, y un 0 si mpg contiene un valor por debajo es la mediana Puede calcular la mediana usando median() función. Tenga en cuenta que puede resultarle útil utilizar data.frame() función para crear un único conjunto de datos que contenga tanto mpg01 como Auto en las otras variables.</p>
+<pre class="r"><code>library(ISLR)
+attach(Auto)</code></pre>
+<pre><code>## The following objects are masked from Auto (pos = 6):
+## 
+##     acceleration, cylinders, displacement, horsepower, mpg, name,
+##     origin, weight, year</code></pre>
+<pre><code>## The following objects are masked from Auto (pos = 14):
+## 
+##     acceleration, cylinders, displacement, horsepower, mpg, name,
+##     origin, weight, year</code></pre>
+<pre><code>## The following object is masked from package:ggplot2:
+## 
+##     mpg</code></pre>
+<pre class="r"><code>set.seed(2015)
+mpg01 &lt;- rep(0, length(mpg))
+mpg01[mpg &gt; median(mpg)] &lt;- 1
+Auto1 &lt;- data.frame(Auto, mpg01)</code></pre>
+<p><strong>(b)</strong> Explore los datos gráficamente para investigar la asociación entre <strong><em>mpg01</em></strong> y las otras características. Qué características parecen ser más útiles para predecir mpg01? Gráfico de dispersión y los diagramas de caja pueden ser herramientas útiles para responder esta pregunta. Describe lod hallazgos.</p>
+<p>Matriz de correlación:</p>
+<pre class="r"><code>cor(Auto1[, -9])</code></pre>
+<pre><code>##                     mpg  cylinders displacement horsepower     weight
+## mpg           1.0000000 -0.7776175   -0.8051269 -0.7784268 -0.8322442
+## cylinders    -0.7776175  1.0000000    0.9508233  0.8429834  0.8975273
+## displacement -0.8051269  0.9508233    1.0000000  0.8972570  0.9329944
+## horsepower   -0.7784268  0.8429834    0.8972570  1.0000000  0.8645377
+## weight       -0.8322442  0.8975273    0.9329944  0.8645377  1.0000000
+## acceleration  0.4233285 -0.5046834   -0.5438005 -0.6891955 -0.4168392
+## year          0.5805410 -0.3456474   -0.3698552 -0.4163615 -0.3091199
+## origin        0.5652088 -0.5689316   -0.6145351 -0.4551715 -0.5850054
+## mpg01         0.8369392 -0.7591939   -0.7534766 -0.6670526 -0.7577566
+##              acceleration       year     origin      mpg01
+## mpg             0.4233285  0.5805410  0.5652088  0.8369392
+## cylinders      -0.5046834 -0.3456474 -0.5689316 -0.7591939
+## displacement   -0.5438005 -0.3698552 -0.6145351 -0.7534766
+## horsepower     -0.6891955 -0.4163615 -0.4551715 -0.6670526
+## weight         -0.4168392 -0.3091199 -0.5850054 -0.7577566
+## acceleration    1.0000000  0.2903161  0.2127458  0.3468215
+## year            0.2903161  1.0000000  0.1815277  0.4299042
+## origin          0.2127458  0.1815277  1.0000000  0.5136984
+## mpg01           0.3468215  0.4299042  0.5136984  1.0000000</code></pre>
+<pre class="r"><code>Conf3x2 = matrix(c(1:6), nrow=2, byrow=TRUE)
+layout(Conf3x2)
+boxplot(year ~ mpg01, data = Auto, main = &quot;Year vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))
+boxplot(cylinders ~ mpg01, data = Auto, main = &quot;Cylinders vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))
+boxplot(horsepower ~ mpg01, data = Auto, main = &quot;Horsepower vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))
+boxplot(displacement ~ mpg01, data = Auto, main = &quot;Displacement vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))
+boxplot(weight ~ mpg01, data = Auto, main = &quot;Weight vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))
+boxplot(acceleration ~ mpg01, data = Auto, main = &quot;Acceleration vs mpg01&quot;,col=c(&quot;#50C3EB&quot;,&quot;#8B9DFF&quot;))</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>En los boxplot anteriores se evidencia alta variabilidad en algunas cajas, pero no hay muchos cambios entre cada una de las variables respecto a los niveles de la variable mpg01.</p>
+<p><strong>(c)</strong> Divida los datos en un conjunto de entrenamiento y un conjunto de prueba.</p>
+<pre class="r"><code>train11 &lt;- (Auto1$year %% 2 == 0)
+Auto1.train &lt;- Auto1[train11, ]
+Auto1.test &lt;- Auto1[!train11, ]
+mpg01.test &lt;- mpg01[!train11]</code></pre>
+<p><strong>(d)</strong> Realice LDA en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?</p>
+<pre class="r"><code>fit.lda1 &lt;- lda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, subset = train11)
+fit.lda1</code></pre>
+<pre><code>## Call:
+## lda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, 
+##     subset = train11)
+## 
+## Prior probabilities of groups:
+##         0         1 
+## 0.4571429 0.5428571 
+## 
+## Group means:
+##   cylinders   weight displacement horsepower
+## 0  6.812500 3604.823     271.7396  133.14583
+## 1  4.070175 2314.763     111.6623   77.92105
+## 
+## Coefficients of linear discriminants:
+##                        LD1
+## cylinders    -0.6741402638
+## weight       -0.0011465750
+## displacement  0.0004481325
+## horsepower    0.0059035377</code></pre>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>pred.lda1 &lt;- predict(fit.lda1, Auto1.test)
+table(pred.lda1$class, mpg01.test)</code></pre>
+<pre><code>##    mpg01.test
+##      0  1
+##   0 86  9
+##   1 14 73</code></pre>
+<pre class="r"><code>((86+73)/182)*100</code></pre>
+<pre><code>## [1] 87.36264</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.363% de las veces. La tasa de error con los datos de prueba es de 12.637%.</p>
+<p><strong>(e)</strong> Realice QDA en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?</p>
+<pre class="r"><code>fit.qda1 &lt;- qda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, subset = train11)
+fit.qda1</code></pre>
+<pre><code>## Call:
+## qda(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, 
+##     subset = train11)
+## 
+## Prior probabilities of groups:
+##         0         1 
+## 0.4571429 0.5428571 
+## 
+## Group means:
+##   cylinders   weight displacement horsepower
+## 0  6.812500 3604.823     271.7396  133.14583
+## 1  4.070175 2314.763     111.6623   77.92105</code></pre>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>pred.qda1 &lt;- predict(fit.qda1, Auto1.test)
+table(pred.qda1$class, mpg01.test)</code></pre>
+<pre><code>##    mpg01.test
+##      0  1
+##   0 89 13
+##   1 11 69</code></pre>
+<pre class="r"><code>((89+69)/182)*100</code></pre>
+<pre><code>## [1] 86.81319</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 86.8132% de las veces. La tasa de error con los datos de prueba es de 13.1868%.</p>
+<p><strong>(f)</strong> Realizar regresión logística en los datos de entrenamiento para predecir mpg01 usando las variables que parecían más asociadas con mpg01 en (b). ¿Cuál es el error de prueba del modelo obtenido?</p>
+<pre class="r"><code>fit.glm11 &lt;- glm(mpg01 ~ cylinders + weight + displacement + horsepower, data = Auto1, family = binomial, subset = train11)
+summary(fit.glm11)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = mpg01 ~ cylinders + weight + displacement + horsepower, 
+##     family = binomial, data = Auto1, subset = train11)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.48027  -0.03413   0.10583   0.29634   2.57584  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  17.658730   3.409012   5.180 2.22e-07 ***
+## cylinders    -1.028032   0.653607  -1.573   0.1158    
+## weight       -0.002922   0.001137  -2.569   0.0102 *  
+## displacement  0.002462   0.015030   0.164   0.8699    
+## horsepower   -0.050611   0.025209  -2.008   0.0447 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 289.58  on 209  degrees of freedom
+## Residual deviance:  83.24  on 205  degrees of freedom
+## AIC: 93.24
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>Matriz de confusión:</p>
+<pre class="r"><code>probs11 &lt;- predict(fit.glm11, Auto1.test, type = &quot;response&quot;)
+pred.glm11 &lt;- rep(0, length(probs11))
+pred.glm11[probs11 &gt; 0.5] &lt;- 1
+table(pred.glm11, mpg01.test)</code></pre>
+<pre><code>##           mpg01.test
+## pred.glm11  0  1
+##          0 89 11
+##          1 11 71</code></pre>
+<pre class="r"><code>((89+71)/182)*100</code></pre>
+<pre><code>## [1] 87.91209</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.9121% de las veces. La tasa de error con los datos de prueba es de 12.0879%.</p>
+<p><strong>(g)</strong> Realice KNN en los datos de entrenamiento, con varios valores de K, en para predecir mpg01. Use solo las variables que parecían más asociado con mpg01 en (b). ¿Qué errores de prueba obtienes? ¿Qué valor de K parece tener el mejor rendimiento en este conjunto de datos?</p>
+<pre class="r"><code>train.X &lt;- cbind(cylinders, weight, displacement, horsepower)[train11, ]
+test.X &lt;- cbind(cylinders, weight, displacement, horsepower)[!train11, ]
+train11.mpg01 &lt;- mpg01[train11]</code></pre>
+<p><strong>K=10</strong></p>
+<pre class="r"><code>set.seed(210)
+pred.knn11 &lt;- knn(train.X, test.X, train11.mpg01, k = 10)
+table(pred.knn11, mpg01.test)</code></pre>
+<pre><code>##           mpg01.test
+## pred.knn11  0  1
+##          0 77  7
+##          1 23 75</code></pre>
+<pre class="r"><code>((77+75)/182)*100</code></pre>
+<pre><code>## [1] 83.51648</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 87.9121% de las veces. La tasa de error con los datos de prueba es de 12.0879%.</p>
+<p><strong>K=5</strong></p>
+<pre class="r"><code>set.seed(555)
+pred.knn5 &lt;- knn(train.X, test.X, train11.mpg01, k = 5)
+table(pred.knn5, mpg01.test)</code></pre>
+<pre><code>##          mpg01.test
+## pred.knn5  0  1
+##         0 82  9
+##         1 18 73</code></pre>
+<pre class="r"><code>((82+73)/182)*100</code></pre>
+<pre><code>## [1] 85.16484</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 85.165% de las veces. La tasa de error con los datos de prueba es de 14.835%.</p>
+<p><strong>K=51</strong></p>
+<pre class="r"><code>set.seed(22)
+pred.knn51 &lt;- knn(train.X, test.X, train11.mpg01, k = 51)
+table(pred.knn51, mpg01.test)</code></pre>
+<pre><code>##           mpg01.test
+## pred.knn51  0  1
+##          0 81  7
+##          1 19 75</code></pre>
+<pre class="r"><code>((81+75)/182)*100</code></pre>
+<pre><code>## [1] 85.71429</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 85.7143% de las veces. La tasa de error con los datos de prueba es de 14.2857%.</p>
+<p><strong>K=120</strong></p>
+<pre class="r"><code>set.seed(57)
+pred.knn100 &lt;- knn(train.X, test.X, train11.mpg01, k = 120)
+table(pred.knn100, mpg01.test)</code></pre>
+<pre><code>##            mpg01.test
+## pred.knn100  0  1
+##           0 77  7
+##           1 23 75</code></pre>
+<pre class="r"><code>((77+75)/182)*100</code></pre>
+<pre><code>## [1] 83.51648</code></pre>
+<p>En esta tabla de confusión, podemos concluir que el porcentaje de predicciones correctas es de 83.52% de las veces. La tasa de error con los datos de prueba es de 16.48%.</p>
+<p>Se concluye que los mejores resultados están con K=5 y K=51, teniendo los porcetnajes de predicciones correctas más altas y las tasas de erro más pequeñas.</p>
+</div>
+<div id="punto-12" class="section level2">
+<h2>Punto 12</h2>
+<p>Este problema implica escribir funciones.</p>
+<p><strong>(a)</strong> Write a function, Power(), that prints out the result of raising 2 to the 3rd power. In other words, your function should compute 2^3 and print out the results.</p>
+<p>Hint: Recall that x^a raises x to the power a. Use the print() function to output the result.</p>
+<pre class="r"><code>Power &lt;- function() {
+    2^3
+}
+Power()</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p><strong>(b)</strong> Cree una nueva función, Power2(), que le permita pasar cualquier dos números, x y a, e imprime el valor de x ^ a. Usted puede haga esto comenzando su función con la línea, debería poder llamar a su función ingresando, por ejemplo,en la línea de comando. Esto debería generar el valor de 3^8, a saber,6.561.</p>
+<p>Power2 =function (x,a){Power2 (3,8)}</p>
+<pre class="r"><code>Power2 &lt;- function(x, a) {
+    x^a
+}
+
+Power2(3, 8)</code></pre>
+<pre><code>## [1] 6561</code></pre>
+<p><strong>(c)</strong> Usando la función Power2 () que acaba de escribir, calcule <span class="math inline">\(10^3\)</span> , <span class="math inline">\(8^{17}\)</span> y <span class="math inline">\(131^3\)</span>.</p>
+<pre class="r"><code>Power2(10, 3)</code></pre>
+<pre><code>## [1] 1000</code></pre>
+<pre class="r"><code>Power2(8, 17)</code></pre>
+<pre><code>## [1] 2.2518e+15</code></pre>
+<pre class="r"><code>Power2(131, 3)</code></pre>
+<pre><code>## [1] 2248091</code></pre>
+<p><strong>(d)</strong> Ahora cree una nueva función, Power3(), que en realidad devuelve el resulta <span class="math inline">\(x^a\)</span> como un objeto R, en lugar de simplemente imprimirlo en el pantalla. Es decir, si almacena el valor <span class="math inline">\(x^a\)</span> en un objeto llamado resultado dentro de su función, entonces simplemente puede return() esto resultado, utilizando la siguiente línea:</p>
+<p>return(result) La línea de arriba debe ser la última línea de su función, antes del símbolo de la }.</p>
+<pre class="r"><code>Power3 &lt;- function(x , a) {
+    result &lt;- x^a
+    return(result)
+}</code></pre>
+<p><strong>(e)</strong> Ahora, usando la función Power3(), crea un gráfico de f(x) = x2. El eje x debe mostrar un rango de números enteros de 1 a 10, y el eje y debería mostrar x2. Etiqueta los ejes apropiadamente, y usar un título apropiado para la figura. Considere la posibilidad de mostrar el eje X, el eje Y, o ambos en la escala logarítmica. Puedes hacer esto usando log=‘’x’‘, log=’‘y’‘, o log=’‘xy’’ como argumentos para la función plot().</p>
+<pre class="r"><code>x &lt;- 1:10
+plot(x, Power3(x, 2), log = &quot;xy&quot;, xlab = &quot;Log of x&quot;, ylab = &quot;Log of x^2&quot;, main = &quot;Log of x^2 vs Log of x&quot;)</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><strong>(f)</strong> Crear una función, PlotPower(), que permita crear un gráfico de x contra <span class="math inline">\(x^a\)</span> para una a fija y para un rango de valores de x. Para ejemplo, si llamas a PlotPower (1:10 ,3) entonces se debe crear un gráfico con un eje x que tome valores 1, 2, . . . …10, y un eje Y que toma los valores 13, 23,…, 103.</p>
+<pre class="r"><code>x &lt;- 1:10
+plot(x, Power3(x, 2), log = &quot;xy&quot;, xlab = &quot;Log of x&quot;, ylab = &quot;Log of x^2&quot;, main = &quot;Log of x^2 vs Log of x&quot;)</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+</div>
+<div id="punto-13" class="section level2">
+<h2>Punto 13</h2>
+<p>Utilizando el conjunto de datos de Boston, ajustar los modelos de clasificación con el fin de predecir si un determinado suburbio tiene un índice de delincuencia superior o inferior a la mediana. Explorar la regresión logística, los modelos LDA y KNN usando varios subconjuntos de los pronosticadores. Describa sus hallazgos.</p>
+<p>Se crea una nueva variable donde es 1 si su indice de delincuencia es mayor a la mediana y 0 si es menor, esto para la variable crim, crim no se incluye en el modelo puesto que crim01 está creada a partir de crim. Luego se divide la base de datos en dos conjuntos para entrenamiento y prueba. Se decide ajustar dos modelos con para los métodos de regresión lógistica y LDA incluyendo o no las siguientes variables: ptratio, medv, tax, rad, nox.</p>
+<pre class="r"><code>library(MASS)
+attach(Boston)</code></pre>
+<pre><code>## The following objects are masked from Boston (pos = 6):
+## 
+##     age, black, chas, crim, dis, indus, lstat, medv, nox, ptratio,
+##     rad, rm, tax, zn</code></pre>
+<pre><code>## The following objects are masked from Boston (pos = 14):
+## 
+##     age, black, chas, crim, dis, indus, lstat, medv, nox, ptratio,
+##     rad, rm, tax, zn</code></pre>
+<pre class="r"><code>crim01 &lt;- rep(0, length(crim))
+crim01[crim &gt; median(crim)] &lt;- 1
+Boston1 &lt;- data.frame(Boston, crim01)
+
+train13 &lt;- 1:(length(crim) / 2)
+test13 &lt;- (length(crim) / 2 + 1):length(crim)
+Boston.train &lt;- Boston1[train13, ]
+Boston.test &lt;- Boston1[test13, ]
+crim01.test &lt;- crim01[test13]</code></pre>
+<p>Ajustamos el modelo usando predicción lógistica, utilizando todas las varibles:</p>
+<pre class="r"><code>fit.glm13 &lt;- glm(crim01 ~ . - crim, data = Boston1, family = binomial, subset = train13)</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<pre class="r"><code>probs13 &lt;- predict(fit.glm13, Boston.test, type = &quot;response&quot;)
+pred.glm13 &lt;- rep(0, length(probs13))
+pred.glm13[probs13 &gt; 0.5] &lt;- 1
+table(pred.glm13, crim01.test)</code></pre>
+<pre><code>##           crim01.test
+## pred.glm13   0   1
+##          0  68  24
+##          1  22 139</code></pre>
+<pre class="r"><code>((68+139)/253)*100</code></pre>
+<pre><code>## [1] 81.81818</code></pre>
+<p>En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo es de 81.82% y la tasa de error para este modelo de predicción con los datos de prueba es de 18.18%.</p>
+<p>Ajustando el modelo de regresión lógistica sin incluir las variables descritas anteriormente:</p>
+<pre class="r"><code>fit.glm113 &lt;- glm(crim01 ~ . -crim - ptratio -medv -tax -rad -nox - chas, data = Boston1, family = binomial, subset = train13)
+probs113 &lt;- predict(fit.glm113, Boston.test, type = &quot;response&quot;)
+pred.glm113 &lt;- rep(0, length(probs113))
+pred.glm113[probs113 &gt; 0.5] &lt;- 1
+table(pred.glm113, crim01.test)</code></pre>
+<pre><code>##            crim01.test
+## pred.glm113   0   1
+##           0  83  41
+##           1   7 122</code></pre>
+<pre class="r"><code>((83+122)/253)*100</code></pre>
+<pre><code>## [1] 81.02767</code></pre>
+<p>En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo es de 81.03% y la tasa de error para este modelo de predicción con los datos de prueba es de 18.97%.</p>
+<p>Ajustando el modelo de predicción usando el método LDA incluyendo las variables:</p>
+<pre class="r"><code>fit.lda13 &lt;- lda(crim01 ~ . - crim01 - crim, data = Boston1, subset = train13)
+pred.lda13 &lt;- predict(fit.lda13, Boston.test)
+table(pred.lda13$class, crim01.test)</code></pre>
+<pre><code>##    crim01.test
+##       0   1
+##   0  80  24
+##   1  10 139</code></pre>
+<pre class="r"><code>((80+139)/253)*100</code></pre>
+<pre><code>## [1] 86.56126</code></pre>
+<p>En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo usando LDA es de 86.56% y la tasa de error para este modelo de predicción con los datos de prueba es de 13.44%.</p>
+<p>Ajustando el modelo usando el método LDA sin incluir las variables:</p>
+<pre class="r"><code>fit.lda113 &lt;- lda(crim01 ~ . - crim01 - crim - ptratio -medv -tax -rad -nox - chas, data = Boston1, subset = train13)
+pred.lda113 &lt;- predict(fit.lda113, Boston.test)
+table(pred.lda113$class, crim01.test)</code></pre>
+<pre><code>##    crim01.test
+##       0   1
+##   0  83  36
+##   1   7 127</code></pre>
+<pre class="r"><code>((83+127)/253)*100</code></pre>
+<pre><code>## [1] 83.00395</code></pre>
+<p>En la tabla de confusión, se puede concluir que el porcentaje de predicciones correctas que predice el modelo usando LDA es de 83.004% y la tasa de error para este modelo de predicción con los datos de prueba es de 16.996%.</p>
+<p>Ajustando el modelo usando KNN, buscamos los valores de k óptimos:</p>
+<pre class="r"><code>dat_scal &lt;- scale(Boston1)
+dat_dist=dist(dat_scal)
+
+dat_clust=hclust(dat_dist,method=&quot;single&quot;)
+
+
+library(FactoClass)
+library(ggplot2)
+library(factoextra)
+Conf3x1 = matrix(c(1:4), nrow=2, byrow=TRUE)
+layout(Conf3x1)
+fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = &quot;silhouette&quot;) ## metodo del codo</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<pre class="r"><code>fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = &quot;wss&quot;)</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-47-2.png" width="672" /></p>
+<pre class="r"><code>fviz_nbclust(x = (dat_scal),FUNcluster = kmeans, method = &quot;gap_stat&quot;)</code></pre>
+<pre><code>## Clustering k = 1,2,..., K.max (= 10): .. done
+## Bootstrapping, b = 1,2,..., B (= 100)  [one &quot;.&quot; per sample]:
+## .................................................. 50 
+## .................................................. 100</code></pre>
+<p><img src="tae_files/figure-html/unnamed-chunk-47-3.png" width="672" /></p>
+<pre class="r"><code>train.X13 &lt;- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[train13, ]
+test.X13 &lt;- cbind(zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)[test13, ]
+train.crim01 &lt;- crim01[train13]</code></pre>
+<p><strong>K=2</strong></p>
+<pre class="r"><code>set.seed(13)
+pred.knn13 &lt;- knn(train.X13, test.X13, train.crim01, k = 2)
+table(pred.knn13, crim01.test)</code></pre>
+<pre><code>##           crim01.test
+## pred.knn13  0  1
+##          0 86 79
+##          1  4 84</code></pre>
+<pre class="r"><code>((86+84)/253)*100</code></pre>
+<pre><code>## [1] 67.19368</code></pre>
+<p>El porcentaje de predicciones correctas que predice el modelo usando KNN con k=2 es de 67.194% y la tasa de error para este modelo de predicción con los datos de prueba es de 32.806%.</p>
+<p><strong>K=9</strong></p>
+<pre class="r"><code>set.seed(1997)
+pred.knn9 &lt;- knn(train.X13, test.X13, train.crim01, k = 9)
+table(pred.knn9, crim01.test)</code></pre>
+<pre><code>##          crim01.test
+## pred.knn9   0   1
+##         0  83  21
+##         1   7 142</code></pre>
+<pre class="r"><code>((83+142)/253)*100</code></pre>
+<pre><code>## [1] 88.93281</code></pre>
+<p>El porcentaje de predicciones correctas que predice el modelo usando KNN con k=9 es de 88.933% y la tasa de error para este modelo de predicción con los datos de prueba es de 11.067%.</p>
+<p><strong>K=15</strong></p>
+<pre class="r"><code>set.seed(15)
+pred.knn15 &lt;- knn(train.X13, test.X13, train.crim01, k = 15)
+table(pred.knn15, crim01.test)</code></pre>
+<pre><code>##           crim01.test
+## pred.knn15   0   1
+##          0  83  23
+##          1   7 140</code></pre>
+<pre class="r"><code>((83+140)/253)*100</code></pre>
+<pre><code>## [1] 88.14229</code></pre>
+<p>El porcentaje de predicciones correctas que predice el modelo usando KNN con k=15 es de 88.14% y la tasa de error para este modelo de predicción con los datos de prueba es de 11.86%.</p>
+<p><strong>K=80</strong></p>
+<pre class="r"><code>set.seed(80)
+pred.knn80 &lt;- knn(train.X13, test.X13, train.crim01, k = 80)
+table(pred.knn80, crim01.test)</code></pre>
+<pre><code>##           crim01.test
+## pred.knn80   0   1
+##          0  85  31
+##          1   5 132</code></pre>
+<pre class="r"><code>((85+132)/253)*100</code></pre>
+<pre><code>## [1] 85.77075</code></pre>
+<p>El porcentaje de predicciones correctas que predice el modelo usando KNN con k=80 es de 85.8% y la tasa de error para este modelo de predicción con los datos de prueba es de 14.2%.</p>
+<p>En los modelos ajustados para predecir si un determinado suburbio tiene un índice de delincuencia mayor o menor a la mediana de criminalidad, se encontró que los resultados de los porcentajes predichos correctamente no tuvieron grandes cambios de acuerdo a si se incluían o no las variables, esto para los métodos de LDA y regresión lógistica, esto era de esperarse puesto que ambos llegan a resultados muy similares siendo en este caso LDA mejor por tener las menores tasas de error. Para el método KNN se decide no utilizar dos conjuntos de variables sino todas las variables menos crim, en este caso para valores de k mayores a 9 no hay mucha diferencia entre los porcentajes de predicción y tasas de error.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

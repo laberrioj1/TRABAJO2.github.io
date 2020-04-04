@@ -1,0 +1,472 @@
+# {.tabset .tabset-fade .tabset-pills}
+
+
+## Punto 8
+
+En el laboratorio, se aplicó un árbol de clasificación al conjunto de datos de Carseats después se convirtió a Sales en una variable de respuesta cualitativa. Ahora vamos a tratan de predecir las ventas utilizando árboles de regresión y enfoques relacionados, tratando la respuesta como una variable cuantitativa.
+
+
+**(a)** Dividir el conjunto de datos en un conjunto de entrenamiento y un conjunto de pruebas.
+
+```{r}
+library(ISLR)
+set.seed(167)
+train16 <- sample(1:nrow(Carseats), nrow(Carseats) / 2)
+Carseats.train <- Carseats[train16, ]
+Carseats.test <- Carseats[-train16, ]
+```
+
+**(b)** Ajustar un árbol de regresión al conjunto de entrenamiento. Trazar el árbol e interpretar los resultados. ¿Qué prueba de MSE obtiene?
+
+```{r}
+library(tree)
+tree.carseats <- tree(Sales ~ ., data = Carseats.train)
+summary(tree.carseats)
+```
+
+```{r}
+plot(tree.carseats, type = "proportional")
+text(tree.carseats, splits = TRUE, pretty = 0, cex = 0.5, col = "firebrick")
+```
+
+```{r}
+trea <- predict(tree.carseats, newdata = Carseats.test)
+mean((trea - Carseats.test$Sales)^2)
+```
+El MSE encontrado es de 5.728258
+
+
+**(c)** Utilizar la validación cruzada para determinar el nivel óptimo de la complejidad de los árboles. ¿La poda del árbol mejora la prueba de MSE?
+
+```{r}
+set.seed(124)
+cv.carseats <- cv.tree(tree.carseats)
+plot(cv.carseats$size, cv.carseats$dev, type = "b")
+tree.min <- which.min(cv.carseats$dev)
+points(tree.min, cv.carseats$dev[tree.min], col = "firebrick", cex = 2, pch = 20)
+```
+
+Para este caso el número de nodos óptimos es de 10. 
+
+```{r}
+prune.carseats <- prune.tree(tree.carseats, best = 10)
+plot(prune.carseats)
+text(prune.carseats,  splits = TRUE, pretty = 0, cex = 0.7, col = "firebrick")
+```
+
+```{r}
+mse <- predict(prune.carseats, newdata = Carseats.test)
+mean((mse - Carseats.test$Sales)^2)
+```
+
+El MSE para el árbol con 9 nodos es de 4.828924, aplicando este método el MSE disminuyó.
+
+**(d)** Utilizar el método de embolsado para analizar estos datos. ¿Qué prueba de MSE se obtiene? Use la función importance() para determinar qué variables son más importantes.
+
+```{r}
+library(randomForest)
+bag.carseats <- randomForest(Sales ~ ., data = Carseats.train, mtry = 10, ntree = 500, importance = TRUE)
+yhat.bag <- predict(bag.carseats, newdata = Carseats.test)
+mean((yhat.bag - Carseats.test$Sales)^2)
+```
+
+El MSE es de 2.411247.
+
+```{r}
+importance(bag.carseats)
+```
+
+Las dos variables más importantes son Price y ShelveLoc.
+
+
+**(e)** Utilizar los bosques al azar para analizar estos datos. ¿Qué MSE de prueba se obtiene? Use la función importance() para determinar qué variables son muy importantes. Describa el efecto de m, el número de variables consideradas en cada división, en la tasa de error obtenido.
+
+```{r}
+rf.carseats <- randomForest(Sales ~ ., data = Carseats.train, mtry = 3, ntree = 500, importance = TRUE)
+yhat.rf <- predict(rf.carseats, newdata = Carseats.test)
+mean((yhat.rf - Carseats.test$Sales)^2)
+```
+
+El MSE es de 2.8458, usando $m = p^{1/2}$
+
+```{r}
+importance(rf.carseats)
+```
+
+Las variables más importantes son Price, ShelveLoc y Age.
+
+
+## Punto 9
+
+Este problema involucra al conjunto de datos del OJ que es parte del ISLR paquete.
+
+**(a)** Crear un conjunto de entrenamiento que contenga una muestra aleatoria de 800 observaciones, y un conjunto de pruebas que contiene las observaciones restantes.
+
+```{r}
+set.seed(10)
+train <- sample(1:nrow(OJ), 800)
+OJ.train <- OJ[train, ]
+OJ.test <- OJ[-train, ]
+```
+
+**(b)** Ajustar un árbol a los datos de entrenamiento, con la respuesta "Purchase". y las otras variables como predictores. Utilice la función summary() para producir estadísticas resumidas sobre el árbol, y describir la resultados obtenidos. ¿Cuál es la tasa de error de entrenamiento? ¿Cuántos nodos terminales que tiene el árbol?
+
+```{r}
+library(tree)
+tree.oj <- tree(Purchase ~ ., data = OJ.train)
+summary(tree.oj)
+```
+
+El árbol tiene 8 nodos terminales y tasa de error de clasificación de 0.15
+
+
+**(c)** Escriba el nombre del objeto del árbol para obtener una descripción detallada salida de texto. Escoge uno de los nodos terminales, e interpreta la información que se muestra.
+
+```{r}
+tree.oj
+```
+
+Escogemos el nodo etiquetado 7, que es un nodo terminal debido al asterisco. El criterio de división es LoyalCH >0.764572, el número de observaciones en esa rama es 265 con una desviación de 103.700 y una predicción general para la rama de MM. 
+
+**(d)** Crear un gráfico del árbol e interpretar los resultados.
+
+```{r}
+plot(tree.oj)
+text(tree.oj,  splits = TRUE, pretty = 0, cex = 0.8, col = "firebrick")
+```
+
+Podemos ver que el indicador mas importante de los datos es LoyalCH.
+
+**(e)** Predecir la respuesta en los datos de la prueba, y producir una confusión matriz que compara las etiquetas de las pruebas con las etiquetas de las pruebas previstas. ¿Cuál es la tasa de error de la prueba?
+
+Matriz de confusión:
+
+```{r}
+tree.pred <- predict(tree.oj, OJ.test, type = "class")
+table(tree.pred, OJ.test$Purchase)
+1 - ((135 + 79) / (135+34+22+79))
+```
+La tasa de error de la prueba es de 20.74%
+
+
+**(f)** Aplicar la función cv.tree() al conjunto de entrenamiento para determinar el tamaño óptimo del árbol.
+
+```{r}
+cv.oj <- cv.tree(tree.oj, FUN = prune.misclass)
+cv.oj
+```
+
+**(g)** Elaborar un gráfico con el tamaño del árbol en el eje x y validarlo de forma cruzada tasa de error de clasificación en el eje Y.
+
+```{r}
+plot(cv.oj$size, cv.oj$dev, type = "b", xlab = "Tree size", ylab = "Deviance")
+```
+
+**(h)** ¿Qué tamaño de árbol corresponde a la clasificación validada cruzada más baja tasa de error?
+
+Podemos ver que el árbol de 2 nodos es el árbol más pequeño con la tasa de error de clasificación más baja.
+
+**(i)** Producir un árbol podado que corresponda al tamaño óptimo del árbol obtenido mediante validación cruzada. Si la validación cruzada no conduce a la selección de un árbol podado, luego crear un árbol podado con cinco nodos terminales.
+
+```{r}
+prune.oj <- prune.misclass(tree.oj, best = 2)
+plot(prune.oj)
+text(prune.oj,splits = TRUE, pretty = 0, cex = 1.2, col = "firebrick")
+```
+
+**(j)** Comparar las tasas de error de entrenamiento entre los podados y los no podados árboles. ¿Cuál es más alto?
+
+```{r}
+summary(tree.oj)
+```
+
+```{r}
+summary(prune.oj)
+```
+
+La tasa de error de pruba del árbol no podado es de 0.1938 y para el árbol podado es de 0.1775, para los árboles podados es un poco mayor que los no podados.
+
+
+**(k)** Comparar los índices de error de la prueba entre los podados y los no podados árboles. ¿Cuál es más alto?
+
+
+```{r}
+prune.pred <- predict(prune.oj, OJ.test, type = "class")
+table(prune.pred, OJ.test$Purchase)
+```
+
+```{r}
+1 - ((136 + 85) / (136+23+26+85))
+```
+
+Para este caso, podar el árbol aumentó el índice de error de prueba en aproximadamente un 18.15%.
+
+
+
+## Punto 10
+
+Ahora usamos el aumento para predecir el Salary en el conjunto de datos de los Hitters.
+
+**(a)** Eliminar las observaciones para las que la información de salarios es desconocida, y luego log-transformar los salarios.
+
+```{r}
+library(ISLR)
+# Eliminar las observaciones nas para la variable salary
+v_nan <- is.na(Hitters$Salary)
+new_hitters <- Hitters[-which(v_nan),]
+new_hitters$Salary <- log(new_hitters$Salary)
+```
+
+**(b)** Crear un conjunto de entrenamiento que consista en las primeras 200 observaciones, y un conjunto de pruebas que consiste en las observaciones restantes.
+
+```{r}
+#Conjunto de train and test
+#Train primeras 200 observaciones
+vec_obs <- 1:200
+trainS <- new_hitters[vec_obs,]
+testS <- new_hitters[-vec_obs,]
+```
+
+**(c)** Realizar la potenciación del conjunto de entrenamiento con 1.000 árboles para un rango de valores del parámetro de contracción $??$.Producir una trama con diferentes valores de contracción en el eje xy el correspondiente conjunto de entrenamiento MSE en el eje y.
+
+```{r}
+library(gbm)
+#Valores aleatorios de una dsitribución uniforme en el rango de [0, 0.3]
+#tamaño de la muestra aleatori n = 50
+set.seed(4567)
+values_lambda <- runif(n=50, min=0, max=0.1)
+values_lambda <- sort(values_lambda)
+error_train <- vector()
+error_test <- vector()
+for (j in 1:50) {
+boost_mod <- gbm(Salary~., distribution = "gaussian", data=trainS, n.trees = 1000,
+interaction.depth=4, shrinkage=values_lambda[j])
+error_train[j] <- boost_mod$train.error[1000]
+pred_salary <- predict(boost_mod, newdata = testS[, -19], n.trees = 1000)
+error_test[j] <- mean((pred_salary-testS$Salary)^2)
+}
+```
+
+
+**(d)** Producir un gráfico con diferentes valores de contracción en el eje x y el correspondiente conjunto de pruebas MSE en el eje y.
+
+```{r}
+fac_error <- c(rep("trainS", 50), rep("testS",50))
+v_error <- c(error_train, error_test)
+v_lambda <- rep(values_lambda, 2)
+m_error <- data.frame(v_error, fac_error, v_lambda)
+ggplot(data=m_error) +
+geom_point(aes(x = v_lambda, y = v_error, color=fac_error)) + labs(x="lambda", y="MSE")
+```
+
+El menos MSE con el conjunto de prueba:
+
+```{r}
+min(error_test)
+```
+
+Valor de lambda:
+
+```{r}
+min_lambda <- m_error[m_error$v_error==min(error_test), ]
+```
+
+**(e)** Comparar la prueba MSE de potenciación con la prueba MSE que resulta de aplicar dos de los enfoques de regresión que se ven en Capítulos 3 y 6.
+
+Ajustamos el modelo de regresión:
+
+```{r}
+mod_reg <- lm(Salary~., data = trainS)
+pred_reg <- predict(mod_reg, newdata = testS[,-19])
+test_error_reg <- mean((testS$Salary-pred_reg)^2)
+test_error_reg
+```
+
+```{r}
+comp_mse <- c("MSE test Boosting"= 0.2642566,"MSE test regresion"=0.4917959)
+comp_mse
+```
+
+**(f)** Cuáles son las variables que parecen ser los predictores más importantes en el modelo de la promoción?
+
+```{r}
+set.seed(2356)
+boost_f <- gbm(Salary~., distribution = "gaussian", data=trainS, n.trees = 1000,
+interaction.depth=4, shrinkage=0.05411685)
+res <- summary(boost_f)
+```
+
+```{r}
+plot(res, las=2, cex.axis=0.7)
+```
+
+Los predictores con mayor influencia para para el modelo de Boostes son CatBat y CHits
+
+**(g)** Ahora aplique el embolsado al equipo de entrenamiento. ¿Qué es el equipo de prueba MSE para este enfoque?
+
+```{r}
+library(randomForest)
+set.seed(456789)
+mod_bag <- randomForest(Salary~., data=trainS, mtry=19, importance=TRUE)
+pred_bag <- predict(mod_bag, newdata = testS[,-19])
+erro_bag <- mean((testS$Salary-pred_bag)^2)
+mse_c <- c("MSE test Boosting"=0.2642566,"MSE test bagging"= 0.2330524)
+mse_c
+```
+
+## Punto 11
+
+Esta pregunta utiliza el conjunto de datos de Caravan. 
+
+**(a)** Cree un conjunto de entrenamiento que consta de las primeras 1,000 observaciones, y un conjunto de prueba que consta de las observaciones restantes.
+
+```{r}
+set.seed(1)
+train19 <- 1:1000
+Caravan$Purchase <- ifelse(Caravan$Purchase == "Yes", 1, 0)
+Caravan.train <- Caravan[train19, ]
+Caravan.test <- Caravan[-train19, ]
+```
+
+**(b)** Ajustar un modelo de potenciación al conjunto de entrenamiento con la compra como y las otras variables como predictores. Utiliza 1.000 árboles, y un valor de contracción de 0,01. ¿Lo que los predictores parecen ser el más importante?
+
+```{r}
+set.seed(1)
+boost.caravan <- gbm(Purchase ~ ., data = Caravan.train, distribution = "gaussian", n.trees = 1000, shrinkage = 0.01)
+```
+
+```{r}
+summary(boost.caravan)
+```
+
+Las dos variables más importantes son  PPERSAUT y MKOOPKLA.
+
+**(c)** Utilizar el modelo de potenciación para predecir la respuesta en los datos de la prueba. Predecir que una persona hará una compra si la probabilidad estimada de compra es superior al 20%. Formar una matriz de confusión. ¿Qué fracción de la gente predijo que haría una compra ¿hacen uno de hecho? ¿Cómo se compara esto con los resultados obtenidos al aplicar KNN o regresión logística a estos datos ¿Juego?
+
+```{r}
+probs.test19 <- predict(boost.caravan, Caravan.test, n.trees = 1000, type = "response")
+pred.test19 <- ifelse(probs.test19 > 0.2, 1, 0)
+table(Caravan.test$Purchase, pred.test19)
+```
+
+La tasa de predicción correcta es de 21.57%.
+
+```{r}
+logit.caravan <- glm(Purchase ~ ., data = Caravan.train, family = "binomial")
+```
+
+```{r}
+probs.test22 <- predict(logit.caravan, Caravan.test, type = "response")
+```
+
+```{r}
+pred.test22 <- ifelse(probs.test19 > 0.2, 1, 0)
+table(Caravan.test$Purchase, pred.test22)
+```
+
+La tasa de predicción correcta usando regresión logística es de  21.57%
+
+## Punto 12
+Aplicar el aumento, el embolsamiento y los bosques aleatorios a un conjunto de datos de su elección. Asegúrate de que los modelos encajen en un conjunto de entrenamiento y de que evalúen su rendimiento en un equipo de prueba. ¿Cómo de precisos son los resultados comparados a métodos simples como la regresión lineal o logística? ¿Cuál de estos que los enfoques de la investigación dan el mejor resultado?
+
+Se usará el conjunto de datos "Weekly" del paquete estadístico "ISLR" para predecir la variable Direction:
+
+```{r}
+library(gbm)
+set.seed(192)
+train12 <- sample(nrow(Weekly), nrow(Weekly) / 2)
+Weekly$Direction <- ifelse(Weekly$Direction == "Up", 1, 0)
+Weekly.train12 <- Weekly[train12, ]
+Weekly.test12 <- Weekly[-train12, ]
+```
+
+Ajustamos el modelo con regresión lógistica:
+
+Matriz de confusión:
+
+```{r}
+logit.fit12 <- glm(Direction ~ . - Year - Today, data = Weekly.train12, family = "binomial")
+logit.probs12 <- predict(logit.fit12, newdata = Weekly.test12, type = "response")
+logit.pred12 <- ifelse(logit.probs12 > 0.5, 1, 0)
+table(Weekly.test12$Direction, logit.pred12)
+((38+254)/545)*100
+```
+
+El porcentaje de predicciones correctas es de 53.58% y la tasa de error de clasificación es de 46.42%.
+
+Ajustamos el modelo usando boosting:
+
+Matriz de confusión:
+
+```{r}
+set.seed(192)
+boost.fit12 <- gbm(Direction ~ . - Year - Today, data = Weekly.train12, distribution = "bernoulli", n.trees = 5000)
+boost.probs12 <- predict(boost.fit12, newdata = Weekly.test12, n.trees = 5000)
+boost.pred12 <- ifelse(boost.probs12 > 0.5, 1, 0)
+table(Weekly.test12$Direction, boost.pred12)
+((142+137)/545)*100
+```
+El porcentaje de predicciones correctas es de 51.193% y la tasa de error de clasificación es de 48.807%.
+
+Ajustamos el modelo usando bagging:
+
+```{r}
+bag.fit12 <- randomForest(Direction ~ . - Year - Today, data = Weekly.train12, mtry = 6)
+```
+
+```{r}
+set.seed(326)
+bag.probs12 <- predict(bag.fit12, newdata = Weekly.test12)
+bag.pred12 <- ifelse(bag.probs12 > 0.5, 1, 0)
+table(Weekly.test12$Direction, bag.pred12)
+((85+202)/545)*100
+```
+El porcentaje de predicciones correctas es de 52.661% y la tasa de error de clasificación es de 47.339%.
+
+Ajustamos el modelo usando bosques:
+
+```{r}
+rf.fit12 <- randomForest(Direction ~ . - Year - Today, data = Weekly.train12, mtry = 2)
+```
+
+```{r}
+set.seed(257)
+rf.probs12 <- predict(rf.fit12, newdata = Weekly.test12)
+rf.pred12 <- ifelse(rf.probs12 > 0.5, 1, 0)
+table(Weekly.test12$Direction, rf.pred12)
+((81+212)/545)*100
+```
+
+El porcentaje de predicciones correctas es de 53.7615% y la tasa de error de clasificación es de 46.2385%.
+
+Se puede concluir de acuerdo a los modejos de predicción ajustados que para este caso el mejor modelo es ajustado por el método de bosques aleatorios pues tuvo la tasa de error de clasificación más baja.
+
+## Punto 7
+En el laboratorio, aplicamos bosques aleatorios a los datos de Boston usando mtry=6, ntree=25 y ntree=500. Crear un gráfico que muestre la prueba error resultante de los bosques aleatorios en este conjunto de datos para un rango de valores para mtry y ntree. Puedes modelar tu trazar después de la figura 8.10. Describa los resultados obtenidos.
+
+
+```{r}
+library(MASS)
+library(randomForest)
+```
+
+```{r}
+set.seed(6)
+train <- sample(1:nrow(Boston), nrow(Boston) / 2)
+Boston.train <- Boston[train, -14]
+Boston.test <- Boston[-train, -14]
+Y.train <- Boston[train, 14]
+Y.test <- Boston[-train, 14]
+rf.boston1 <- randomForest(Boston.train, y = Y.train, xtest = Boston.test, ytest = Y.test, mtry = ncol(Boston) - 1, ntree = 500)
+rf.boston2 <- randomForest(Boston.train, y = Y.train, xtest = Boston.test, ytest = Y.test, mtry = (ncol(Boston) - 1) / 2, ntree = 500)
+rf.boston3 <- randomForest(Boston.train, y = Y.train, xtest = Boston.test, ytest = Y.test, mtry = sqrt(ncol(Boston) - 1), ntree = 500)
+plot(1:500, rf.boston1$test$mse, col = "#6B81FF", type = "l",xlab = "Number of Trees", ylab = "Test MSE", ylim = c(10, 19))
+lines(1:500, rf.boston2$test$mse, col = "#FFCF70", type = "l")
+lines(1:500, rf.boston3$test$mse, col = "#38E8D4", type = "l")
+legend("topright", c("m = p", "m = p/2", "m = sqrt(p)"), col = c("#6B81FF", "#FFCF70", "#38E8D4"), cex = 1, lty = 1.5)
+```
+
+
+
+En el gráfico se puede observar que para valores de m<p dismunuye el MSE y para un solo árbol el MSE es muy alto pero a medida que el número de árboles aumenta el MSE disminuye. Además para valores mayores a 100 el MSE no cambia mucho, permanece casi constante.
+

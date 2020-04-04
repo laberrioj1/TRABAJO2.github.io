@@ -1,0 +1,34 @@
+---
+title: "ENTREGA"
+---
+
+Ledy Alexandra Berrio Jaramillo - 1037658889
+
+Susana Londoño Arango - 1037656848
+
+
+
+####A continuación se muestra el desarrollo del trabajo número 2, en la pestaña "Home" se visualiza el nombre del autor y el ensayo sobre como dar solución a la calidad del aire en Medellín con inteligencia artifical. En las demas pestañas se dan solución a los ejercicios propuestos de acuerdo a cada sección del texto guía.
+
+
+
+####INTRODUCCIÓN
+
+La calidad del aire es una cifra proporcionada por las autoridades de una zona normalmente urbana y que refleja los contaminantes presentes en el aire. El medio ambiente es en sí el espacio que nos rodea, y en el que vivimos día a día, el cual se ve afectado por cada una de nuestras acciones. Para hablar de la calidad del aire es necesario tener en cuenta que todo lo que nos rodea y aún aquello que no logramos ver y que se encuentra a kilómetros de distancia, mantiene una relación simbiótica con nosotros. 
+
+Nuestra acción directa sobre el medio ambiente se reduce tristemente a la mala calidad del aire, los seres humanos entre más avanzamos en el desarrollo y la industrialización, más retrocedemos en la protección y conservación del medio ambiente, y esto está causando progresivamente la destrucción de nuestro planeta. A parte de entender como nuestras acciones cotidianas tienen un impacto negativo sobre la calidad del aire que nos rodea, se pretende buscar soluciones realistas a partir de toda la información disponible y poniendo en práctica el aprendizaje estadístico que se ha adquirido durante la carrera y en este curso
+
+Gracias al sistema de alerta temprana de Medellín y el valle de Aburrá (SIATA) podemos estar al tanto de la concentración de partículas en diferentes zonas de Medellín, esta refleja los contaminantes presentes en el aire medidos por diferentes estaciones repartidas por todo el valle de aburrá, estos contaminantes se denominan partículas en suspensión (PM, del inglés Particulate Matter). Las partículas en suspensión abarcan todas las partículas sólidas y líquidas que se encuentran en el aire, esta mezcla contiene entre otras cosas, polvo, polen, hollín, humo. Los componentes mencionados anteriormente son algunos de los que forman un peligro, pues contaminan el aire que respiran miles de ciudadanos y se denomina peligroso para valores mayores a PM2.5. Las estaciones medidoras muestran una situación crítica y un estado lamentable sobre la calidad del aire. Esto es una problemática que se ha venido dando durante muchos años, principalmente en esta época del año en la que ocurre una transición entre la temporada seca y la húmeda, en la cual se presenta alta nubosidad y no permite la radiación solar, si el aire no es calentado lo suficiente no asciende y no es arrastrado fuera del valle, por otro lado la ciudad está ubicada en una cuenca de profundidad máxima 1 kilómetro y 7 kilómetros de ancha, esto también es un factor influyente para la concentración de partículas "malas", es decir, una mala calidad del aire. Pero realmente la época del año y la topografía no son las culpables de esta problemática, esto es en realidad el polo a tierra que tenemos para darnos cuenta del gran impacto ambiental atribuible a nuestras acciones cotidianas y la muestra de que el daño que le hacemos a la naturaleza también es un daño para la salud de cada uno de nosotros, y las medidas drásticas que se han tomado también nos afectan en nuestra cotidianidad.
+En la última década la circulación de autos aumento en por lo menos un 300%, se ha establecido un déficit de 700.000 árboles, la OMS (Organización Mundial de la Salud) recomienda que debiera haber un árbol por cada 3 habitantes y en el valle de Aburrá solo hay 0.39 árboles por cada tres habitantes, el área metropolitana informó que las fuentes fijas como empresas y la industria aportan un 20% de los contaminantes del aire  y las fuentes móviles como los autos particulares aportan el 80%.
+Dicho lo anterior y teniendo en cuenta cuales son las principales causas de la mala calidad del aire y sus repercusiones, es evidente que el SIATA es una fuente confiable para medir la calidad del aire, y el culpable de este problema se le atribuye en su totalidad al ser humano.
+se propone plantear un modelo por cada zona en donde se ubique una estación medidora de SIATA donde se utilizará como variable respuesta los valores arrojados por cada estación y las variables influyentes a la calidad del aire pueden variar en las diferentes zonas o estaciones, pues los factores influyentes a la mala calidad del aire pueden ser zonas donde hay muchas fábricas o concentración vehicular y zonas influyentes a la buena calidad del aire como pueden ser las comunas o zonas rurales.
+Según la respuesta de cada modelo se pueden tomar medidas independientes de mejoramiento de la calidad del aire, es decir, no es viable poner pico y placa en una zona en la que no haya alto flujo vehicular, o multar empresas en zonas donde hay buena calidad y estas no son perjudiciales en la calidad del aire, por el contrario, hay zonas en las que estas medidas sí pueden contribuir al mejoramiento de la calidad del aire.
+
+
+###CIBERGRAFÍA
+
+https://siata.gov.co/siata_nuevo/
+https://www.metropol.gov.co/ambientales/aire/red-aire
+https://www.eltiempo.com/colombia/medellin/medellin-y-el-valle-de-aburra-muestran-una-baja-calidad-del-aire-326250 
+https://www.elcolombiano.com/antioquia/si-hay-control-a-empresas-que-contaminan-DK10383330
+

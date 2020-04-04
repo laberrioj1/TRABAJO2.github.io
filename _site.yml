@@ -1,0 +1,20 @@
+name: "my-website"
+output_dir: "."
+navbar:
+  title: "TRABAJO"
+  left:
+    - text: "Home"
+      href: index.html    
+    - text: "4.7.2"
+      href: tae.html
+    - text: "8.4"
+      href: about.html
+    - text: "9.7.2"
+      href: bod.html  
+      
+      
+output:
+  html_document:
+    theme: united
+    highlight: textmate 
+    code_folding: hide
